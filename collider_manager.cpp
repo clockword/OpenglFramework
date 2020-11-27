@@ -35,6 +35,7 @@ void ColliderManager::Delete()
 {
 	for (auto iter : Colliders)
 		delete iter.second;
+	Colliders.clear();
 }
 
 Collider *ColliderManager::LoadColliderFromFile(const char* filename)

@@ -7,6 +7,16 @@
 #include "collider_manager.h"
 #include "player.h"
 
+Game::Game()
+{
+	level = nullptr;
+}
+
+Game::~Game()
+{
+	ClearLevel();
+}
+
 void Game::Init(const unsigned int scr_width, const unsigned int scr_height)
 {
     ResourceManager::LoadShader("vs_sprite.glsl", "fs_sprite.glsl", nullptr, "sprite");
@@ -33,15 +43,33 @@ void Game::Update(SpriteRenderer& renderer, float deltatime)
 {
     //player.Update(renderer, deltaTime);
     //obj.Update(renderer, deltaTime);
+	level->Update(renderer, deltatime);
 }
 
 void Game::FixedUpdate(float deltatime)
 {
-    ColliderManager::FixedUpdate(deltatime);
+    //ColliderManager::FixedUpdate(deltatime);
+	level->FixedUpdate(deltatime);
 }
 
-void Game::Clear()
+void Game::ClearSingletonObjects()
 {
-    ResourceManager::Clear();
-    ColliderManager::Delete();
+	ResourceManager::Clear();
+	ColliderManager::Delete();
+}
+
+void Game::CreateLevel(std::string file)
+{
+	if (level == nullptr)
+		return;
+	level = new Level;
+	level->Create(file);
+}
+
+void Game::ClearLevel()
+{
+    //ResourceManager::Clear();
+    //ColliderManager::Delete();
+	if (level != nullptr)
+		delete level;
 }

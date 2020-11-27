@@ -66,10 +66,11 @@ void ResourceManager::Clear()
     // (properly) delete all shaders	
     for (auto iter : Shaders)
         glDeleteProgram(iter.second.ID);
+	Shaders.clear();
     // (properly) delete all textures
     for (auto iter : Textures)
         glDeleteTextures(1, &iter.second.ID);
-
+	Textures.clear();
     for (auto iter : Anims)
     {
         int count_s = iter.second.GetAnimStatusMax();
@@ -81,6 +82,7 @@ void ResourceManager::Clear()
         }
         iter.second.DeleteAnim();
     }
+	Anims.clear();
 }
 
 Shader ResourceManager::loadShaderFromFile(const char *vShaderFile, const char *fShaderFile, const char *gShaderFile)

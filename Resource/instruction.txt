@@ -1,0 +1,6 @@
+object name
+bg_dog // background
+so_dog // static object
+sc_dog // static collision object
+pl_dog // player
+en_dog // enemy
