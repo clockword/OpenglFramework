@@ -189,14 +189,16 @@ void ResourceManager::loadAnimFromFile(const char* file, Texture2D texture, std:
                 break;
         }
         t_vao.push_back(ImportVAO(nums, texture));
-        t_xCenter.push_back(nums[4]);
-        t_yCenter.push_back(nums[5]);
-        t_width.push_back(nums[2] - nums[0]);
-        t_height.push_back(nums[3] - nums[1]);
+        t_width.push_back(nums[2]);
+        t_height.push_back(nums[3]);
+        //t_xCenter.push_back(nums[4]);
+        //t_yCenter.push_back(nums[5]);
+        t_xCenter.push_back(nums[0] + (int)(nums[2] * 0.5));
+        t_yCenter.push_back(nums[1] + (int)(nums[3] * 0.5));
 
-        if (nums.size() == 7)
+        if (nums.size() == 5)
         {
-            interval_max.push_back((float)nums[6]);
+            interval_max.push_back((float)nums[4]);
             vao.push_back(t_vao);
             xCenter.push_back(t_xCenter);
             yCenter.push_back(t_yCenter);
@@ -225,8 +227,8 @@ unsigned int ResourceManager::ImportVAO(std::vector<int> rect, Texture2D texture
     float t_height = (float)texture.Height;
     float left = (float)rect[0] / t_width;
     float bottom = (float)rect[1] / t_height;
-    float right = (float)rect[2] / t_width;
-    float top = (float)rect[3] / t_height;
+    float right = (float)(rect[2] + rect[0]) / t_width;
+    float top = (float)(rect[3] + rect[1]) / t_height;
     unsigned int VAO, VBO;
 
     float vertices[24] = {

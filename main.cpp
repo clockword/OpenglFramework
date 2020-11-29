@@ -21,7 +21,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
 //Game Breakout(SCR_WIDTH, SCR_HEIGHT);
-Game game;
+//Game game;
 
 int main(int argc, char *argv[])
 {
@@ -80,12 +80,12 @@ int main(int argc, char *argv[])
     Shader temp = ResourceManager::GetShader("sprite");
     SpriteRenderer renderer(temp);
 
-    CollObject obj({ 1000.0f,100.0f }, { 1.0f,1.0f }, ResourceManager::LoadTexture(((std::string)"./Resource/Image/dog.png").c_str(), true, "dog"));
-    obj.Create(ResourceManager::LoadAnims(((std::string)"./Resource/VertexData/dog.txt").c_str(), obj.Sprite, "dog"),
+    CollObject obj({ 1000.0f,100.0f }, { 1.0f,1.0f }, ResourceManager::LoadTexture(((std::string)"./Resource/Image/Electric_Knight.png").c_str(), true, "dog"));
+    obj.Create(ResourceManager::LoadAnims(((std::string)"./Resource/VertexData/Electric_Knight.txt").c_str(), obj.Sprite, "dog"),
         ColliderManager::LoadCollider(((std::string)"./Resource/ColliderData/dog.txt").c_str(), "dog"));
 
-    Player player({ 500.0f,100.0f }, { 1.0f,1.0f }, ResourceManager::LoadTexture(((std::string)"./Resource/Image/dog.png").c_str(), true, "dog"));
-    player.Create(ResourceManager::LoadAnims(((std::string)"./Resource/VertexData/dog.txt").c_str(), player.Sprite, "dog"),
+    Player player({ 500.0f,100.0f }, { 2.0f,2.0f }, ResourceManager::LoadTexture(((std::string)"./Resource/Image/Electric_Knight.png").c_str(), true, "dog"));
+    player.Create(ResourceManager::LoadAnims(((std::string)"./Resource/VertexData/Electric_Knight.txt").c_str(), player.Sprite, "dog"),
         ColliderManager::LoadCollider(((std::string)"./Resource/ColliderData/dog.txt").c_str(), "dog"));
 
     obj.xFlip = true;
