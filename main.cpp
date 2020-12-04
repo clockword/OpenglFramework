@@ -6,6 +6,7 @@
 #include "resource_manager.h"
 #include "collider_manager.h"
 #include "player.h"
+#include "background.h"
 
 #include "game.h"
 
@@ -80,6 +81,24 @@ int main(int argc, char *argv[])
     Shader temp = ResourceManager::GetShader("sprite");
     SpriteRenderer renderer(temp);
 
+    Background back;
+    //std::vector<Texture2D> sprites;
+    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_10.png", false, "layer_10"));
+    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_11.png", false, "layer_11"));
+    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_12.png", false, "layer_12"));
+    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_13.png", false, "layer_13"));
+    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_14.png", false, "layer_14"));
+    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_15.png", false, "layer_15"));
+    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_16.png", false, "layer_16"));
+    //back.PushSprite(sprites);
+    //sprites.clear();
+    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_20.png", true, "layer_20"));
+    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_21.png", true, "layer_21"));
+    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_22.png", true, "layer_22"));
+    //back.PushSprite(sprites);
+
+    //back.IsMoving = true;
+
     CollObject obj({ 1000.0f,100.0f }, { 1.0f,1.0f }, ResourceManager::LoadTexture(((std::string)"./Resource/Image/Electric_Knight.png").c_str(), true, "dog"));
     obj.Create(ResourceManager::LoadAnims(((std::string)"./Resource/VertexData/Electric_Knight.txt").c_str(), obj.Sprite, "dog"),
         ColliderManager::LoadCollider(((std::string)"./Resource/ColliderData/dog.txt").c_str(), "dog"));
@@ -132,8 +151,11 @@ int main(int argc, char *argv[])
         //Breakout.Render();
         //Texture2D temp = ResourceManager::GetTexture("crying_cat");
         //renderer.DrawSprite(temp, glm::vec2(100.0f, 100.0f));
+        //back.Update(renderer, deltaTime);
+        //backn.Update(renderer, deltaTime);
         player.Update(renderer, deltaTime);
         obj.Update(renderer, deltaTime);
+        //front.Update(renderer, deltaTime);
 
         /*game.Update(renderer, deltaTime);*/
 

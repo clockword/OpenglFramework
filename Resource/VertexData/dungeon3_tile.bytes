@@ -1,0 +1,22 @@
+i tk2d 1
+w 235
+h 160
+~
+n bookdown
+s 108 109 105 50
+~
+n bookshelf
+s 1 1 105 114
+~
+n bookup
+s 1 117 105 42
+~
+n tile2
+s 156 45 46 42
+~
+n tile3
+s 156 1 78 42
+~
+n tile4
+s 108 1 46 106
+~
