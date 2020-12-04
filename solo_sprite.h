@@ -10,14 +10,15 @@ private:
 	std::vector<Texture2D> objects;
 	int animIndex;
 	float animInterval;
-	float animIntervalMax;
 public:
 	glm::vec2   Position, Size;
 	unsigned int Width;
+	float MaxAniInterval;
 
 	SoloSprite();
+	~SoloSprite();
 
-	void PushSprite();
+	void PushSprite(std::vector<Texture2D> sprites);
 	void Update(SpriteRenderer& renderer, float deltatime);
 protected:
 	void Draw(SpriteRenderer& renderer);

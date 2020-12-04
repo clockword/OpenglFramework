@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 
@@ -9,13 +8,15 @@
 class Background
 {
 protected:
-    std::vector<SoloSprite> objects;
+    int size;
+    SoloSprite* objects;
 public:
     bool IsMoving;
 
     Background();
+    ~Background();
 
-    void PushSprite();
+    void PushSprite(std::vector<Texture2D> sprites, glm::vec2 scale = glm::vec2(1.0f, 1.0f), float maxAniInterval = 0.2f);
     void Update(SpriteRenderer& renderer, float deltatime);
 };
 

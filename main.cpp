@@ -82,22 +82,37 @@ int main(int argc, char *argv[])
     SpriteRenderer renderer(temp);
 
     Background back;
-    //std::vector<Texture2D> sprites;
-    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_10.png", false, "layer_10"));
-    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_11.png", false, "layer_11"));
-    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_12.png", false, "layer_12"));
-    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_13.png", false, "layer_13"));
-    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_14.png", false, "layer_14"));
-    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_15.png", false, "layer_15"));
-    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_16.png", false, "layer_16"));
-    //back.PushSprite(sprites);
-    //sprites.clear();
-    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_20.png", true, "layer_20"));
-    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_21.png", true, "layer_21"));
-    //sprites.push_back(ResourceManager::LoadTexture("./Resource/Backgrounds/Dungeon2/layer_22.png", true, "layer_22"));
-    //back.PushSprite(sprites);
+    std::vector<Texture2D> sprites;
+    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_10.png").c_str(), false, "layer_10"));
+    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_11.png").c_str(), false, "layer_11"));
+    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_12.png").c_str(), false, "layer_12"));
+    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_13.png").c_str(), false, "layer_13"));
+    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_14.png").c_str(), false, "layer_14"));
+    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_15.png").c_str(), false, "layer_15"));
+    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_16.png").c_str(), false, "layer_16"));
+    back.PushSprite(sprites, glm::vec2(2.0f, 2.0f));
+    sprites.clear();
+    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_20.png").c_str(), true, "layer_20"));
+    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_21.png").c_str(), true, "layer_21"));
+    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_22.png").c_str(), true, "layer_22"));
+    back.PushSprite(sprites, glm::vec2(2.0f, 2.0f));
+    sprites.clear();
+    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_40.png").c_str(), true, "layer_40"));
+    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_41.png").c_str(), true, "layer_41"));
+    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_42.png").c_str(), true, "layer_42"));
+    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_43.png").c_str(), true, "layer_43"));
+    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_44.png").c_str(), true, "layer_44"));
+    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_45.png").c_str(), true, "layer_45"));
+    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_46.png").c_str(), true, "layer_46"));
+    back.PushSprite(sprites, glm::vec2(2.0f, 2.0f));
+    sprites.clear();
+    Background front;
+    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_3.png").c_str(), true, "layer_3"));
+    front.PushSprite(sprites, glm::vec2(2.0f, 2.0f));
+    sprites.clear();
 
-    //back.IsMoving = true;
+    back.IsMoving = true;
+    front.IsMoving = true;
 
     CollObject obj({ 1000.0f,100.0f }, { 1.0f,1.0f }, ResourceManager::LoadTexture(((std::string)"./Resource/Image/Electric_Knight.png").c_str(), true, "dog"));
     obj.Create(ResourceManager::LoadAnims(((std::string)"./Resource/VertexData/Electric_Knight.txt").c_str(), obj.Sprite, "dog"),
@@ -151,10 +166,10 @@ int main(int argc, char *argv[])
         //Breakout.Render();
         //Texture2D temp = ResourceManager::GetTexture("crying_cat");
         //renderer.DrawSprite(temp, glm::vec2(100.0f, 100.0f));
-        //back.Update(renderer, deltaTime);
-        //backn.Update(renderer, deltaTime);
+        back.Update(renderer, deltaTime);
         player.Update(renderer, deltaTime);
         obj.Update(renderer, deltaTime);
+        front.Update(renderer, deltaTime);
         //front.Update(renderer, deltaTime);
 
         /*game.Update(renderer, deltaTime);*/
