@@ -13,6 +13,8 @@ SpriteAnimation::SpriteAnimation()
 	yCenter = nullptr;
 	width = nullptr;
 	height = nullptr;
+
+	isContinuous = true;
 }
 
 SpriteAnimation::~SpriteAnimation()
@@ -81,16 +83,23 @@ void SpriteAnimation::UpdateAnim(float deltatime)
 	{
 		animInterval = 0.0f;
 		++animIndex;
+		if (!isContinuous && animIndex == animIndexMax[animStatus] - 1)
+			isContinuous = true;
 		if (animIndex >= animIndexMax[animStatus])
 			animIndex = 0;
 	}
 }
 
-void SpriteAnimation::SetAnimStatus(int status)
+void SpriteAnimation::SetAnimStatus(int status, bool isContinuous)
 {
+	if (!this->isContinuous)
+		return;
+
 	this->animStatus = status;
 	this->animInterval = 0.0f;
 	this->animIndex = 0;
+
+	this->isContinuous = isContinuous;
 }
 
 void SpriteAnimation::DeleteAnim()

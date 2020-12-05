@@ -22,12 +22,22 @@ Collider *ColliderManager::GetCollider(std::string name)
 
 void ColliderManager::FixedUpdate(float deltatime)
 {
+	float gravity = 29.43f;
 	for (auto iter : Colliders)
 	{
+		iter.second->gameObject->Velocity.y += gravity;
+
 		glm::vec2 velocity = iter.second->gameObject->Velocity * deltatime;
-		iter.second->X += velocity.x;
-		iter.second->Y += velocity.y;
-		iter.second->gameObject->Position += velocity;
+		glm::vec2 position = glm::vec2(iter.second->X, iter.second->Y) + velocity;
+
+		if (position.y + iter.second->CollY + iter.second->Height * 0.5f > 645.0f) {
+			position.y = 645.0f - iter.second->CollY - iter.second->Height * 0.5f;
+			iter.second->gameObject->Velocity.y = 0.0f;
+		}
+
+		iter.second->X = position.x;
+		iter.second->Y = position.y;
+		iter.second->gameObject->Position = position;
 	}
 }
 
@@ -53,8 +63,8 @@ Collider *ColliderManager::LoadColliderFromFile(const char* filename)
 		{
 			switch (order++)
 			{
-			case 0: coll->X = std::stof(str); break;
-			case 1: coll->Y = std::stof(str); break;
+			case 0: coll->CollX = std::stof(str); break;
+			case 1: coll->CollY = std::stof(str); break;
 			case 2: coll->Width = std::stof(str); break;
 			case 3: coll->Height = std::stof(str); break;
 			}

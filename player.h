@@ -1,6 +1,26 @@
 #pragma once
 #include "coll_object.h"
 
+enum class PlayerAnimStatus
+{
+	ATKDWN_ORBIT = 0,
+	SHOOT_ORBIT,
+	ATKFWD_ORBIT,
+	ATKFWD_SWD,
+	ATKDWN_SWD,
+	ATKUP_SWD,
+	PWRUP,
+	HNDUP,
+	DASH,
+	DASHATK,
+	FALDWN,
+	JUMP,
+	SWOON,
+	IDLE,
+	GTH_ORBIT,
+	WALK
+};
+
 class Player : public CollObject
 {
 public:

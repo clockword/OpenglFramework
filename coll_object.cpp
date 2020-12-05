@@ -25,7 +25,7 @@ void CollObject::Create(SpriteAnimation anim, Collider* coll)
 	collider = coll;
 	collider->CreateBorder();
 	collider->gameObject = this;
-	collider->SetObjPos(Position.x, Position.y);
+	collider->SetPos(Position.x, Position.y);
 }
 
 void CollObject::Update(SpriteRenderer& renderer, float deltatime)

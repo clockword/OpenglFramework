@@ -17,6 +17,8 @@ private:
     int** yCenter;
     int** width;
     int** height;
+
+    bool isContinuous;
 protected:
     void CreateAnim(int status_count, int index_count[]);
 public:
@@ -29,7 +31,8 @@ public:
 
     void UpdateAnim(float deltatime);
 
-    void SetAnimStatus(int status);
+    void SetAnimStatus(int status, bool isContinuous = true);
+    int GetAnimStatus() { return animStatus; }
     unsigned int GetVao() { return this->vao[animStatus][animIndex]; }
     unsigned int* GetVao(int status, int index) { return &this->vao[status][index]; }
     int GetCenterX() { return this->xCenter[animStatus][animIndex]; }

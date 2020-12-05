@@ -29,8 +29,8 @@ int main(int argc, char *argv[])
     // glfw: initialize and configure
     // ------------------------------
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -111,14 +111,11 @@ int main(int argc, char *argv[])
     front.PushSprite(sprites, glm::vec2(2.0f, 2.0f));
     sprites.clear();
 
-    back.IsMoving = true;
-    front.IsMoving = true;
-
     CollObject obj({ 1000.0f,100.0f }, { 1.0f,1.0f }, ResourceManager::LoadTexture(((std::string)"./Resource/Image/Electric_Knight.png").c_str(), true, "dog"));
     obj.Create(ResourceManager::LoadAnims(((std::string)"./Resource/VertexData/Electric_Knight.txt").c_str(), obj.Sprite, "dog"),
         ColliderManager::LoadCollider(((std::string)"./Resource/ColliderData/dog.txt").c_str(), "dog"));
 
-    Player player({ 500.0f,100.0f }, { 2.0f,2.0f }, ResourceManager::LoadTexture(((std::string)"./Resource/Image/Electric_Knight.png").c_str(), true, "dog"));
+    Player player({ 500.0f, 500.0f }, { 2.0f,2.0f }, ResourceManager::LoadTexture(((std::string)"./Resource/Image/Electric_Knight.png").c_str(), true, "dog"));
     player.Create(ResourceManager::LoadAnims(((std::string)"./Resource/VertexData/Electric_Knight.txt").c_str(), player.Sprite, "dog"),
         ColliderManager::LoadCollider(((std::string)"./Resource/ColliderData/dog.txt").c_str(), "dog"));
 
