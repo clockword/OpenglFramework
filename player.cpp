@@ -2,17 +2,18 @@
 #include <Windows.h>
 #include "camera.h"
 
-
 Player::Player() : CollObject()
 {
-	type = TYPE::PLAYER;
+	Type = ObjectType::PLAYER;
 }
 
 Player::Player(glm::vec2 pos, glm::vec2 size, Texture2D sprite, glm::vec3 color, glm::vec2 velocity)
 	: CollObject(pos, size, sprite, color, velocity)
 {
-	type = TYPE::PLAYER;
-	Camera::startX = this->Position.x;
+	Type = ObjectType::PLAYER;
+	Camera::startX = pos.x;
+	Camera::posX = pos.x;
+	Camera::prevX = pos.x;
 }
 
 void Player::Update(SpriteRenderer& renderer, float deltatime)
@@ -22,12 +23,13 @@ void Player::Update(SpriteRenderer& renderer, float deltatime)
 	int status = anim->GetAnimStatus();
 	bool isContinuous = true;
 
-	Camera::posX = this->Position.x;
-
 	bool err = 0;
 	err = ::GetKeyboardState(key);
 	if (!err)
 		return;
+
+	Camera::prevX = Camera::posX;
+	Camera::posX = Position.x;
 
 	if (key[VK_LEFT] & 0x80)
 	{

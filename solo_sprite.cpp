@@ -35,5 +35,7 @@ void SoloSprite::Update(SpriteRenderer& renderer, float deltatime)
 
 void SoloSprite::Draw(SpriteRenderer& renderer)
 {
-	renderer.DrawSprite(objects[animIndex], this->Position, this->Size);
+	glm::vec2 pos(this->Position);
+
+	renderer.DrawSprite(objects[animIndex], pos, this->Size);
 }

@@ -1,6 +1,6 @@
 #include "background.h"
-
 #include "resource_manager.h"
+#include "camera.h"
 
 Background::Background()
 {
@@ -59,7 +59,7 @@ void Background::Update(SpriteRenderer& renderer, float deltatime)
     {
         for (int i = 0; i < size; ++i)
         {
-            int width = objects[i].Width * objects[i].Size.x;
+            float width = objects[i].Width * objects[i].Size.x;
             int partner = i % 2 ? i - 1 : i + 1;
             if (objects[i].Position.x < -width)
                 objects[i].Position.x = objects[partner].Position.x + width;
@@ -73,6 +73,15 @@ void Background::Update(SpriteRenderer& renderer, float deltatime)
     else
     {
         for (int i = 0; i < size; ++i)
+        {
+            float width = objects[i].Width * objects[i].Size.x;
+            int partner = i % 2 ? i - 1 : i + 1;
+            if (objects[i].Position.x < -width)
+                objects[i].Position.x = objects[partner].Position.x + width;
+            else if (objects[i].Position.x > width)
+                objects[i].Position.x = objects[partner].Position.x - width;
+            objects[i].Position.x -= Camera::posX - Camera::prevX;
             objects[i].Update(renderer, deltatime);
+        }
     }
 }

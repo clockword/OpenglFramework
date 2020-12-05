@@ -111,18 +111,21 @@ int main(int argc, char *argv[])
     front.PushSprite(sprites, glm::vec2(2.0f, 2.0f));
     sprites.clear();
 
-    CollObject obj({ 1000.0f,100.0f }, { 1.0f,1.0f }, ResourceManager::LoadTexture(((std::string)"./Resource/Image/Electric_Knight.png").c_str(), true, "dog"));
-    obj.Create(ResourceManager::LoadAnims(((std::string)"./Resource/VertexData/Electric_Knight.txt").c_str(), obj.Sprite, "dog"),
-        ColliderManager::LoadCollider(((std::string)"./Resource/ColliderData/dog.txt").c_str(), "dog"));
+    //CollObject obj({ 1000.0f,100.0f }, { 1.0f,1.0f }, ResourceManager::LoadTexture(((std::string)"./Resource/Image/Electric_Knight.png").c_str(), true, "dog"));
+    //obj.Create(ResourceManager::LoadAnims(((std::string)"./Resource/VertexData/Electric_Knight.txt").c_str(), obj.Sprite, "dog"),
+    //    ColliderManager::LoadCollider(((std::string)"./Resource/ColliderData/dog.txt").c_str(), "dog"));
 
-    Player player({ 500.0f, 500.0f }, { 2.0f,2.0f }, ResourceManager::LoadTexture(((std::string)"./Resource/Image/Electric_Knight.png").c_str(), true, "dog"));
-    player.Create(ResourceManager::LoadAnims(((std::string)"./Resource/VertexData/Electric_Knight.txt").c_str(), player.Sprite, "dog"),
-        ColliderManager::LoadCollider(((std::string)"./Resource/ColliderData/dog.txt").c_str(), "dog"));
+    Player player({ 500.0f, 0.0f }, { 2.0f,2.0f }, ResourceManager::LoadTexture("./Resource/Image/player.png", true, "player"));
+    player.Create(ResourceManager::LoadAnims("./Resource/VertexData/player.txt", player.Sprite, "player"),
+        ColliderManager::LoadCollider("./Resource/ColliderData/player.txt", "player"));
 
-    obj.xFlip = true;
-    obj.yFlip = true;
+    CollObject obj(glm::vec2(1000.0f, 600.0f), glm::vec2(2.0f, 2.0f), ResourceManager::LoadTexture("./Resource/Image/dungeon2_tile.png", true, "dungeon2_tile"));
+    obj.Create(ResourceManager::LoadAnims("./Resource/VertexData/dungeon2_tile.txt", obj.Sprite, "dungeon2_tile"),
+        ColliderManager::LoadCollider("./Resource/ColliderData/dungeon2_tile1.txt","dungeon2_tile1"));
+    obj.Type = ObjectType::WALL;
 
-    /*game.Init(SCR_WIDTH, SCR_HEIGHT);*/
+    player.Active = true;
+    obj.Active = true;
 
     // deltaTime variables
     // -------------------
@@ -160,16 +163,10 @@ int main(int argc, char *argv[])
         // ------
         glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        //Breakout.Render();
-        //Texture2D temp = ResourceManager::GetTexture("crying_cat");
-        //renderer.DrawSprite(temp, glm::vec2(100.0f, 100.0f));
         back.Update(renderer, deltaTime);
-        player.Update(renderer, deltaTime);
         obj.Update(renderer, deltaTime);
+        player.Update(renderer, deltaTime);
         front.Update(renderer, deltaTime);
-        //front.Update(renderer, deltaTime);
-
-        /*game.Update(renderer, deltaTime);*/
 
         if (fixedDuration > 0.02f)
         {

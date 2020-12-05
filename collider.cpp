@@ -1,6 +1,6 @@
 #include "collider.h"
 #include "resource_manager.h"
-
+#include "camera.h"
 
 #include <fstream>
 
@@ -39,6 +39,8 @@ void Collider::Draw(SpriteRenderer& renderer)
 {
 	glm::vec2 pos(CollX + X - (this->Width * 0.5f),CollY + Y - (this->Height * 0.5f));
 	glm::vec2 size(this->Width / colorBorder.Width, this->Height / colorBorder.Height);
+
+	pos.x -= Camera::posX - Camera::startX;
 
 	renderer.DrawSprite(colorBorder, pos, size);
 }

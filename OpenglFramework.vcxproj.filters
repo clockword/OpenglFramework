@@ -27,11 +27,11 @@
     <Filter Include="소스 파일\gl_include">
       <UniqueIdentifier>{3ac937f5-60ca-4e8b-8f19-eb6760c5ed0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\unused">
+      <UniqueIdentifier>{df8fb50a-e28d-4bc5-9f74-c1fc27ab7822}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Vector2.cpp">
-      <Filter>소스 파일\base_object</Filter>
-    </ClCompile>
     <ClCompile Include="sprite_renderer.cpp">
       <Filter>소스 파일\gl_object</Filter>
     </ClCompile>
@@ -40,9 +40,6 @@
     </ClCompile>
     <ClCompile Include="text_renderer.cpp">
       <Filter>소스 파일\gl_object</Filter>
-    </ClCompile>
-    <ClCompile Include="game_object.cpp">
-      <Filter>소스 파일\game_object</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
@@ -65,9 +62,6 @@
     <ClCompile Include="collider.cpp">
       <Filter>소스 파일\gl_include</Filter>
     </ClCompile>
-    <ClCompile Include="coll_object.cpp">
-      <Filter>소스 파일\game_object</Filter>
-    </ClCompile>
     <ClCompile Include="collider_manager.cpp">
       <Filter>소스 파일\gl_object</Filter>
     </ClCompile>
@@ -83,14 +77,26 @@
     <ClCompile Include="background.cpp">
       <Filter>소스 파일\game_object</Filter>
     </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>소스 파일\unused</Filter>
+    </ClCompile>
+    <ClCompile Include="coll_object.cpp">
+      <Filter>소스 파일\base_object</Filter>
+    </ClCompile>
+    <ClCompile Include="game_object.cpp">
+      <Filter>소스 파일\base_object</Filter>
+    </ClCompile>
     <ClCompile Include="solo_sprite.cpp">
+      <Filter>소스 파일\base_object</Filter>
+    </ClCompile>
+    <ClCompile Include="rect.cpp">
+      <Filter>소스 파일\gl_include</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
       <Filter>소스 파일\game_object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Vector2.h">
-      <Filter>소스 파일\base_object</Filter>
-    </ClInclude>
     <ClInclude Include="resource_manager.h">
       <Filter>소스 파일\gl_object</Filter>
     </ClInclude>
@@ -99,9 +105,6 @@
     </ClInclude>
     <ClInclude Include="text_renderer.h">
       <Filter>소스 파일\gl_object</Filter>
-    </ClInclude>
-    <ClInclude Include="game_object.h">
-      <Filter>소스 파일\game_object</Filter>
     </ClInclude>
     <ClInclude Include="shader.h">
       <Filter>소스 파일\gl_include</Filter>
@@ -114,9 +117,6 @@
     </ClInclude>
     <ClInclude Include="collider.h">
       <Filter>소스 파일\gl_include</Filter>
-    </ClInclude>
-    <ClInclude Include="coll_object.h">
-      <Filter>소스 파일\game_object</Filter>
     </ClInclude>
     <ClInclude Include="collider_manager.h">
       <Filter>소스 파일\gl_object</Filter>
@@ -133,11 +133,23 @@
     <ClInclude Include="background.h">
       <Filter>소스 파일\game_object</Filter>
     </ClInclude>
-    <ClInclude Include="solo_sprite.h">
-      <Filter>소스 파일\game_object</Filter>
-    </ClInclude>
     <ClInclude Include="camera.h">
       <Filter>소스 파일\game_object</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>소스 파일\unused</Filter>
+    </ClInclude>
+    <ClInclude Include="coll_object.h">
+      <Filter>소스 파일\base_object</Filter>
+    </ClInclude>
+    <ClInclude Include="game_object.h">
+      <Filter>소스 파일\base_object</Filter>
+    </ClInclude>
+    <ClInclude Include="solo_sprite.h">
+      <Filter>소스 파일\base_object</Filter>
+    </ClInclude>
+    <ClInclude Include="rect.h">
+      <Filter>소스 파일\gl_include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

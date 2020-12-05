@@ -2,20 +2,10 @@
 #include "collider.h"
 #include "game_object.h"
 
-enum class TYPE {
-	DEFAULT = 0,
-	PLAYER = 1,
-	WALL = 2,
-	ENEMY = 3,
-	P_BULLET = 4,
-	E_BULLET = 5
-};
-
 class Collider;
 class CollObject : public GameObject
 {
 public:
-	TYPE type;
 	Collider* collider;
 
 	CollObject();

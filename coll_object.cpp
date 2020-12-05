@@ -2,13 +2,12 @@
 
 CollObject::CollObject() : GameObject(), collider(nullptr)
 {
-	type = TYPE::DEFAULT;
+	Type = ObjectType::DEFAULT;
 }
 
 CollObject::CollObject(glm::vec2 pos, glm::vec2 size, Texture2D sprite, glm::vec3 color, glm::vec2 velocity)
 	: GameObject(pos, size, sprite, color, velocity), collider(nullptr)
 {
-	type = TYPE::DEFAULT;
 }
 
 CollObject::~CollObject()
@@ -17,6 +16,7 @@ CollObject::~CollObject()
 
 void CollObject::Create(SpriteAnimation anim)
 {
+	return;
 }
 
 void CollObject::Create(SpriteAnimation anim, Collider* coll)

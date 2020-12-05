@@ -16,20 +16,28 @@
 #include "sprite_renderer.h"
 #include "sprite_animation.h"
 
-// Container object for holding all state relevant for a single
-// game object entity. Each object in the game likely needs the
-// minimal of state as described within GameObject.
+enum class ObjectType {
+    DEFAULT = 0,
+    PLAYER = 1,
+    WALL = 2,
+    ENEMY = 3,
+    P_BULLET = 4,
+    E_BULLET = 5
+};
+
 class GameObject
 {
 protected:
     SpriteAnimation* anim;
 public:
     // object state
+    ObjectType  Type;
     glm::vec2   Position, Size, Velocity;
     glm::vec3   Color;
     float       Rotation;
     bool        xFlip;
     bool        yFlip;
+    bool        Active;
 
     // render state
     Texture2D   Sprite;

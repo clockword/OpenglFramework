@@ -6,9 +6,7 @@ class Camera
 public:
 	static float startX;
 	static float posX;
+	static float prevX;
 
-	Camera() { posX = 0.0f; }
+	Camera();
 };
-
-float Camera::startX;
-float Camera::posX;

@@ -1,5 +1,6 @@
 #include "collider_manager.h"
 #include <fstream>
+#include "rect.h"
 
 std::map<std::string, Collider*> ColliderManager::Colliders;
 
@@ -25,14 +26,40 @@ void ColliderManager::FixedUpdate(float deltatime)
 	float gravity = 29.43f;
 	for (auto iter : Colliders)
 	{
-		iter.second->gameObject->Velocity.y += gravity;
+		if (!iter.second->gameObject->Active)
+			continue;
 
+		ObjectType type = iter.second->gameObject->Type;
+		if(type == ObjectType::PLAYER || type == ObjectType::ENEMY)
+			iter.second->gameObject->Velocity.y += gravity;
+
+		float collX = iter.second->CollX;
+		float collY = iter.second->CollY;
+		float width = iter.second->Width;
+		float height = iter.second->Height;
 		glm::vec2 velocity = iter.second->gameObject->Velocity * deltatime;
 		glm::vec2 position = glm::vec2(iter.second->X, iter.second->Y) + velocity;
+		Rect rect(position.x + collX - width * 0.5f, position.x + collX + width * 0.5f,
+			position.y + collY - height * 0.5f, position.y + collY + height * 0.5f);
 
-		if (position.y + iter.second->CollY + iter.second->Height * 0.5f > 645.0f) {
-			position.y = 645.0f - iter.second->CollY - iter.second->Height * 0.5f;
-			iter.second->gameObject->Velocity.y = 0.0f;
+		switch (type)
+		{
+		case ObjectType::PLAYER:
+		case ObjectType::ENEMY:
+		{
+			if (rect.Bottom > 645.0f) {
+				position.y = 645.0f - collY - height * 0.5f;
+				iter.second->gameObject->Velocity.y = 0.0f;
+			}
+
+			for (auto other : Colliders)
+			{
+				if (other.second == iter.second ||
+					!other.second->gameObject->Active)
+					continue;
+
+			}
+		}break;
 		}
 
 		iter.second->X = position.x;
