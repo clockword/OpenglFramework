@@ -55,7 +55,7 @@ void Player::Update(SpriteRenderer& renderer, float deltatime)
 	}
 
 	if (key[0x58] & 0x80 && Velocity.y == 0.0f) {
-		Velocity.y += -500.0f;
+		Velocity.y += -600.0f;
 	}
 
 	if (Velocity.y != 0.0f)

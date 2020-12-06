@@ -124,8 +124,14 @@ int main(int argc, char *argv[])
         ColliderManager::LoadCollider("./Resource/ColliderData/dungeon2_tile1.txt","dungeon2_tile1"));
     obj.Type = ObjectType::WALL;
 
+    CollObject obj1(glm::vec2(600.0f, 500.0f), glm::vec2(2.0f, 2.0f), ResourceManager::LoadTexture("./Resource/Image/dungeon2_tile.png", true, "dungeon2_tile"));
+    obj1.Create(ResourceManager::LoadAnims("./Resource/VertexData/dungeon2_tile.txt", obj1.Sprite, "dungeon2_tile"),
+        ColliderManager::LoadCollider("./Resource/ColliderData/dungeon2_tile1.txt", "dungeon2_tile1"));
+    obj1.Type = ObjectType::WALL;
+
     player.Active = true;
     obj.Active = true;
+    obj1.Active = true;
 
     // deltaTime variables
     // -------------------
@@ -165,6 +171,7 @@ int main(int argc, char *argv[])
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         back.Update(renderer, deltaTime);
         obj.Update(renderer, deltaTime);
+        obj1.Update(renderer, deltaTime);
         player.Update(renderer, deltaTime);
         front.Update(renderer, deltaTime);
 

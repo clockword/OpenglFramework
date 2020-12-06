@@ -57,7 +57,39 @@ void ColliderManager::FixedUpdate(float deltatime)
 				if (other.second == iter.second ||
 					!other.second->gameObject->Active)
 					continue;
+				switch (other.second->gameObject->Type)
+				{
+				case ObjectType::WALL:
+				{
+					Rect othRect(other.second->X + other.second->CollX - other.second->Width * 0.5f,
+						other.second->X + other.second->CollX + other.second->Width * 0.5f,
+						other.second->Y + other.second->CollY - other.second->Height * 0.5f,
+						other.second->Y + other.second->CollY + other.second->Height * 0.5f);
 
+					if (velocity.y > 0.0f && rect.Bottom > othRect.Top &&
+						rect.Left < othRect.Right && rect.Right > othRect.Left &&
+						iter.second->Y + collY + height * 0.5f <= othRect.Top) {
+						position.y = othRect.Top - height * 0.5f;
+						iter.second->gameObject->Velocity.y = 0.0f;
+					}
+					else if (velocity.y < 0.0f && rect.Top < othRect.Bottom &&
+						rect.Left < othRect.Right && rect.Right > othRect.Left &&
+						iter.second->Y + collY - height * 0.5f >= othRect.Bottom) {
+						position.y = othRect.Bottom + height * 0.5f;
+						iter.second->gameObject->Velocity.y = 1.0f;
+					}
+					else if (velocity.x < 0.0f && rect.Left < othRect.Right &&
+						rect.Top < othRect.Bottom && rect.Bottom > othRect.Top &&
+						rect.Left > othRect.Left){
+						position.x = othRect.Right + width * 0.5f;
+					}
+					else if (velocity.x > 0.0f && rect.Right > othRect.Left &&
+						rect.Top < othRect.Bottom && rect.Bottom > othRect.Top &&
+						rect.Right < othRect.Right){
+						position.x = othRect.Left - width * 0.5f;
+					}
+				}break;
+				}
 			}
 		}break;
 		}

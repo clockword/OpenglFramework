@@ -37,8 +37,6 @@ void GameObject::Update(SpriteRenderer& renderer, float deltatime)
 {
     anim->UpdateAnim(deltatime);
 
-    this->Position += this->Velocity * deltatime;
-
     Draw(renderer);
 }
 
