@@ -95,6 +95,9 @@
     <ClCompile Include="camera.cpp">
       <Filter>소스 파일\game_object</Filter>
     </ClCompile>
+    <ClCompile Include="bullet.cpp">
+      <Filter>소스 파일\base_object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource_manager.h">
@@ -150,6 +153,9 @@
     </ClInclude>
     <ClInclude Include="rect.h">
       <Filter>소스 파일\gl_include</Filter>
+    </ClInclude>
+    <ClInclude Include="bullet.h">
+      <Filter>소스 파일\base_object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

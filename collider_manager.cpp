@@ -23,7 +23,7 @@ Collider *ColliderManager::GetCollider(std::string name)
 
 void ColliderManager::FixedUpdate(float deltatime)
 {
-	float gravity = 29.43f;
+	float gravity = 58.86f;
 	for (auto iter : Colliders)
 	{
 		if (!iter.second->gameObject->Active)
@@ -91,6 +91,11 @@ void ColliderManager::FixedUpdate(float deltatime)
 				}break;
 				}
 			}
+		}break;
+		case ObjectType::E_BULLET:
+		case ObjectType::P_BULLET:
+		{
+
 		}break;
 		}
 

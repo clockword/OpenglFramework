@@ -5,8 +5,8 @@ CollObject::CollObject() : GameObject(), collider(nullptr)
 	Type = ObjectType::DEFAULT;
 }
 
-CollObject::CollObject(glm::vec2 pos, glm::vec2 size, Texture2D sprite, glm::vec3 color, glm::vec2 velocity)
-	: GameObject(pos, size, sprite, color, velocity), collider(nullptr)
+CollObject::CollObject(glm::vec2 pos, glm::vec2 size, glm::vec3 color, glm::vec2 velocity)
+	: GameObject(pos, size, color, velocity), collider(nullptr)
 {
 }
 
@@ -19,9 +19,9 @@ void CollObject::Create(SpriteAnimation anim)
 	return;
 }
 
-void CollObject::Create(SpriteAnimation anim, Collider* coll)
+void CollObject::Create(SpriteAnimation anim, Texture2D sprite, Collider* coll)
 {
-	GameObject::Create(anim);
+	GameObject::Create(anim, sprite);
 	collider = coll;
 	collider->CreateBorder();
 	collider->gameObject = this;

@@ -11,15 +11,19 @@
 
 GameObject::GameObject()
     : anim(nullptr), Position(0.0f, 0.0f), Size(1.0f, 1.0f), 
-    Velocity(0.0f), Color(1.0f), Rotation(0.0f), Sprite(), xFlip(false), yFlip(false), Type(ObjectType::DEFAULT), Active(false) { }
+    Velocity(0.0f), Color(1.0f), Rotation(0.0f), Sprite(nullptr), xFlip(false), yFlip(false), Type(ObjectType::DEFAULT), Active(false), IsDestroyed(false) { }
 
-GameObject::GameObject(glm::vec2 pos, glm::vec2 size, Texture2D sprite, glm::vec3 color, glm::vec2 velocity) 
+GameObject::GameObject(glm::vec2 pos, glm::vec2 size, glm::vec3 color, glm::vec2 velocity) 
     : anim(nullptr), Position(pos), Size(size),
-    Velocity(velocity), Color(color), Rotation(0.0f), Sprite(sprite), xFlip(false), yFlip(false), Type(ObjectType::DEFAULT), Active(false) {
+    Velocity(velocity), Color(color), Rotation(0.0f), Sprite(nullptr), xFlip(false), yFlip(false), Type(ObjectType::DEFAULT), Active(false), IsDestroyed(false) {
+
 }
 
 GameObject::~GameObject()
 {
+    if (Sprite != nullptr)
+        delete Sprite;
+
     if (anim != nullptr)
     {
         anim->DeleteAnim();
@@ -27,10 +31,10 @@ GameObject::~GameObject()
     }
 }
 
-void GameObject::Create(SpriteAnimation anim)
+void GameObject::Create(SpriteAnimation anim, Texture2D sprite)
 {
-    this->anim = new SpriteAnimation();
-    *this->anim = anim;
+    this->anim = new SpriteAnimation(anim);
+    this->Sprite = new Texture2D(sprite);
 }
 
 void GameObject::Update(SpriteRenderer& renderer, float deltatime)
@@ -67,5 +71,5 @@ void GameObject::Draw(SpriteRenderer& renderer)
     }
 
 
-    renderer.DrawSprite(this->Sprite, *anim, pos, size, this->Rotation, this->Color);
+    renderer.DrawSprite(*this->Sprite, *anim, pos, size, this->Rotation, this->Color);
 }

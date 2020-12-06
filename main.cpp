@@ -7,6 +7,7 @@
 #include "collider_manager.h"
 #include "player.h"
 #include "background.h"
+#include "bullet.h"
 
 #include "game.h"
 
@@ -81,6 +82,8 @@ int main(int argc, char *argv[])
     Shader temp = ResourceManager::GetShader("sprite");
     SpriteRenderer renderer(temp);
 
+    Bullet bullet;
+
     Background back;
     std::vector<Texture2D> sprites;
     sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_10.png").c_str(), false, "layer_10"));
@@ -115,18 +118,18 @@ int main(int argc, char *argv[])
     //obj.Create(ResourceManager::LoadAnims(((std::string)"./Resource/VertexData/Electric_Knight.txt").c_str(), obj.Sprite, "dog"),
     //    ColliderManager::LoadCollider(((std::string)"./Resource/ColliderData/dog.txt").c_str(), "dog"));
 
-    Player player({ 500.0f, 0.0f }, { 2.0f,2.0f }, ResourceManager::LoadTexture("./Resource/Image/player.png", true, "player"));
-    player.Create(ResourceManager::LoadAnims("./Resource/VertexData/player.txt", player.Sprite, "player"),
-        ColliderManager::LoadCollider("./Resource/ColliderData/player.txt", "player"));
+    Player player(glm::vec2(500.0f, 0.0f), glm::vec2(2.0f, 2.0f));
+    player.Create(ResourceManager::LoadAnims("./Resource/VertexData/player.txt", ResourceManager::GetTexture("player"), "player"),
+        ResourceManager::LoadTexture("./Resource/Image/player.png", true, "player"), ColliderManager::LoadCollider("./Resource/ColliderData/player.txt", "player"));
 
-    CollObject obj(glm::vec2(1000.0f, 600.0f), glm::vec2(2.0f, 2.0f), ResourceManager::LoadTexture("./Resource/Image/dungeon2_tile.png", true, "dungeon2_tile"));
-    obj.Create(ResourceManager::LoadAnims("./Resource/VertexData/dungeon2_tile.txt", obj.Sprite, "dungeon2_tile"),
-        ColliderManager::LoadCollider("./Resource/ColliderData/dungeon2_tile1.txt","dungeon2_tile1"));
+    CollObject obj(glm::vec2(1000.0f, 600.0f), glm::vec2(2.0f, 2.0f));
+    obj.Create(ResourceManager::LoadAnims("./Resource/VertexData/dungeon2_tile.txt", ResourceManager::GetTexture("dungeon2_tile"), "dungeon2_tile"),
+        ResourceManager::LoadTexture("./Resource/Image/dungeon2_tile.png", true, "dungeon2_tile"), ColliderManager::LoadCollider("./Resource/ColliderData/dungeon2_tile1.txt","dungeon2_tile1"));
     obj.Type = ObjectType::WALL;
 
-    CollObject obj1(glm::vec2(600.0f, 500.0f), glm::vec2(2.0f, 2.0f), ResourceManager::LoadTexture("./Resource/Image/dungeon2_tile.png", true, "dungeon2_tile"));
-    obj1.Create(ResourceManager::LoadAnims("./Resource/VertexData/dungeon2_tile.txt", obj1.Sprite, "dungeon2_tile"),
-        ColliderManager::LoadCollider("./Resource/ColliderData/dungeon2_tile1.txt", "dungeon2_tile1"));
+    CollObject obj1(glm::vec2(600.0f, 500.0f), glm::vec2(2.0f, 2.0f));
+    obj1.Create(ResourceManager::LoadAnims("./Resource/VertexData/dungeon2_tile.txt", ResourceManager::GetTexture("dungeon2_tile"), "dungeon2_tile"),
+        ResourceManager::LoadTexture("./Resource/Image/dungeon2_tile.png", true, "dungeon2_tile"), ColliderManager::LoadCollider("./Resource/ColliderData/dungeon2_tile1.txt", "dungeon2_tile1"));
     obj1.Type = ObjectType::WALL;
 
     player.Active = true;

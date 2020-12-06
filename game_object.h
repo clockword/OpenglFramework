@@ -38,16 +38,17 @@ public:
     bool        xFlip;
     bool        yFlip;
     bool        Active;
+    bool        IsDestroyed;
 
     // render state
-    Texture2D   Sprite;
+    Texture2D   *Sprite;
     // constructor(s)
     GameObject();
-    GameObject(glm::vec2 pos, glm::vec2 size, Texture2D sprite, glm::vec3 color = glm::vec3(1.0f), glm::vec2 velocity = glm::vec2(0.0f, 0.0f));
+    GameObject(glm::vec2 pos, glm::vec2 size, glm::vec3 color = glm::vec3(1.0f), glm::vec2 velocity = glm::vec2(0.0f, 0.0f));
 
     virtual ~GameObject();
     // draw sprite
-    virtual void Create(SpriteAnimation anim);
+    virtual void Create(SpriteAnimation anim, Texture2D sprite);
     virtual void Update(SpriteRenderer& renderer, float deltatime);
 protected:
     //void Create()
