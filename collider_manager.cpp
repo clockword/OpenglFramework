@@ -95,7 +95,7 @@ void ColliderManager::FixedUpdate(float deltatime)
 		case ObjectType::E_BULLET:
 		case ObjectType::P_BULLET:
 		{
-
+			
 		}break;
 		}
 

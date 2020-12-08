@@ -14,6 +14,8 @@ Player::Player(glm::vec2 pos, glm::vec2 size, glm::vec3 color, glm::vec2 velocit
 	Camera::startX = pos.x;
 	Camera::posX = pos.x;
 	Camera::prevX = pos.x;
+	for (auto bullet : bullets)
+		delete bullet.second;
 }
 
 void Player::Update(SpriteRenderer& renderer, float deltatime)
@@ -57,19 +59,19 @@ void Player::Update(SpriteRenderer& renderer, float deltatime)
 		status = (int)PlayerAnimStatus::IDLE;
 	}
 
-	if (key[0x5A] & 0x80) {
+	if (key[0x58] & 0x80) {
 		status = (int)PlayerAnimStatus::ATKDWN_SWD;
 		isContinuous = false;
 	}
 
-	if (key[0x58] & 0x80 && Velocity.y == 0.0f) {
+	if (key[0x5A] & 0x80 && Velocity.y == 0.0f) {
 		Velocity.y += -900.0f;
 	}
 
 	if (Velocity.y != 0.0f)
 	{
 		status = (int)PlayerAnimStatus::JUMP;
-		if (key[0x5A] & 0x80) {
+		if (key[0x58] & 0x80) {
 			status = (int)PlayerAnimStatus::ATKUP_SWD;
 			isContinuous = false;
 		}
@@ -77,8 +79,50 @@ void Player::Update(SpriteRenderer& renderer, float deltatime)
 			status = (int)PlayerAnimStatus::DASHATK;
 	}
 
+	if (key[0x43] & 0x80) {
+		status = (int)PlayerAnimStatus::SHOOT_ORBIT;
+		ShootBullets("orbit");
+		isContinuous = false;
+	}
+
 	if(anim->GetAnimStatus() != status)
 		anim->SetAnimStatus(status, isContinuous);
 
 	CollObject::Update(renderer, deltatime);
+	for (auto bullet : bullets)
+		bullet.second->Update(renderer, deltatime);
+}
+
+void Player::CreateBullets(std::string name, Collider* coll, int index)
+{
+	std::string str = name + std::to_string(index);
+	bullets[str] = new Bullet(Position, glm::vec2(2.0f, 2.0f));
+	bullets[str]->Create(coll);
+}
+
+void Player::CreateBullets(std::string name, SpriteAnimation anim, Texture2D sprite, Collider* coll, int index)
+{
+	std::string str = name + std::to_string(index);
+	bullets[str] = new Bullet(Position, glm::vec2(2.0f, 2.0f));
+	bullets[str]->Create(anim, sprite, coll);
+}
+
+void Player::ShootBullets(std::string name)
+{
+	size_t size = bullets.size();
+	for (size_t i = 0;i < size;++i)
+	{
+		std::string str = name + std::to_string(i);
+		if (bullets.find(str) == bullets.end())
+			break;
+		if (!bullets[str]->Active)
+		{
+			bullets[str]->Position = Position;
+			bullets[str]->collider->SetPos(Position.x, Position.y);
+			bullets[str]->xFlip = xFlip;
+			bullets[str]->Velocity.x = xFlip ? 50.0f : -50.0f;
+			bullets[str]->Active = true;
+			break;
+		}
+	}
 }

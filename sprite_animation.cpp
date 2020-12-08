@@ -51,11 +51,11 @@ void SpriteAnimation::SetAnimInfo(std::vector<std::vector<int>> vao, std::vector
 	std::vector<std::vector<int>> xCenter, std::vector<std::vector<int>> yCenter,
 	std::vector<std::vector<int>> width, std::vector<std::vector<int>> height)
 {
-	int size = vao.size();
+	int size = (int)vao.size();
 	int* index = nullptr;
 	index = new int[size];
 	for (int i = 0; i < size; ++i)
-		index[i] = vao[i].size();
+		index[i] = (int)vao[i].size();
 
 	CreateAnim(size, index);
 

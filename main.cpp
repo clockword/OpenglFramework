@@ -121,6 +121,9 @@ int main(int argc, char *argv[])
     Player player(glm::vec2(500.0f, 0.0f), glm::vec2(2.0f, 2.0f));
     player.Create(ResourceManager::LoadAnims("./Resource/VertexData/player.txt", ResourceManager::GetTexture("player"), "player"),
         ResourceManager::LoadTexture("./Resource/Image/player.png", true, "player"), ColliderManager::LoadCollider("./Resource/ColliderData/player.txt", "player"));
+    for(int i = 0; i < 10; ++i)
+        player.CreateBullets("orbit", ResourceManager::LoadAnims("./Resource/VertexData/player_orbit.txt", ResourceManager::GetTexture("player"), "player_orbit"),
+            ResourceManager::LoadTexture("./Resource/Image/player.png", true, "player"), ColliderManager::LoadCollider("./Resource/ColliderData/player_orbit.txt", "orbit"), i);
 
     CollObject obj(glm::vec2(1000.0f, 600.0f), glm::vec2(2.0f, 2.0f));
     obj.Create(ResourceManager::LoadAnims("./Resource/VertexData/dungeon2_tile.txt", ResourceManager::GetTexture("dungeon2_tile"), "dungeon2_tile"),

@@ -25,10 +25,7 @@ GameObject::~GameObject()
         delete Sprite;
 
     if (anim != nullptr)
-    {
-        anim->DeleteAnim();
         delete anim;
-    }
 }
 
 void GameObject::Create(SpriteAnimation anim, Texture2D sprite)
