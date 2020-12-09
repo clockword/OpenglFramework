@@ -1,5 +1,6 @@
 #include "camera.h"
 
+Player* Camera::player;
 float Camera::startX;
 float Camera::posX;
 float Camera::prevX;

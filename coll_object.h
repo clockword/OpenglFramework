@@ -13,6 +13,8 @@ public:
 
 	virtual ~CollObject();
 
+	virtual void Init();
+
 	virtual void Create(SpriteAnimation anim);
 	virtual void Create(SpriteAnimation anim, Texture2D sprite, Collider* coll);
 	virtual void Update(SpriteRenderer& renderer, float deltatime);

@@ -1,6 +1,0 @@
-﻿  coll_object.cpp
-  player.cpp
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': 매크로 재정의
-D:\OpenglFramework\include\glad\glad.h(32): message : 'APIENTRY'의 이전 정의를 참조하십시오.
-  코드를 생성하고 있습니다...
-  OpenglFramework.vcxproj -> D:\OpenglFramework\x64\Debug\OpenglFramework.exe

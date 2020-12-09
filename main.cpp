@@ -6,6 +6,7 @@
 #include "resource_manager.h"
 #include "collider_manager.h"
 #include "player.h"
+#include "enemy.h"
 #include "background.h"
 #include "bullet.h"
 
@@ -124,6 +125,8 @@ int main(int argc, char *argv[])
     for(int i = 0; i < 10; ++i)
         player.CreateBullets("orbit", ResourceManager::LoadAnims("./Resource/VertexData/player_orbit.txt", ResourceManager::GetTexture("player"), "player_orbit"),
             ResourceManager::LoadTexture("./Resource/Image/player.png", true, "player"), ColliderManager::LoadCollider("./Resource/ColliderData/player_orbit.txt", "orbit"), i);
+    for (int i = 0; i < 10; ++i)
+        player.CreateBullets("swd", ColliderManager::LoadCollider("./Resource/ColliderData/player_swd.txt", "swd"), i);
 
     CollObject obj(glm::vec2(1000.0f, 600.0f), glm::vec2(2.0f, 2.0f));
     obj.Create(ResourceManager::LoadAnims("./Resource/VertexData/dungeon2_tile.txt", ResourceManager::GetTexture("dungeon2_tile"), "dungeon2_tile"),
@@ -135,9 +138,19 @@ int main(int argc, char *argv[])
         ResourceManager::LoadTexture("./Resource/Image/dungeon2_tile.png", true, "dungeon2_tile"), ColliderManager::LoadCollider("./Resource/ColliderData/dungeon2_tile1.txt", "dungeon2_tile1"));
     obj1.Type = ObjectType::WALL;
 
+    Enemy enemy(glm::vec2(0.0f, 0.0f), glm::vec2(2.0f, 2.0f));
+    enemy.Create(ResourceManager::LoadAnims("./Resource/VertexData/en_archer.txt", ResourceManager::GetTexture("en_archer"), "en_archer"),
+        ResourceManager::LoadTexture("./Resource/Image/en_archer.png", true, "en_archer"), ColliderManager::LoadCollider("./Resource/ColliderData/en_archer.txt", "en_archer"));
+
+    player.Init();
+    obj.Init();
+    obj1.Init();
+    enemy.Init();
+
     player.Active = true;
     obj.Active = true;
     obj1.Active = true;
+    enemy.Active = true;
 
     // deltaTime variables
     // -------------------
@@ -178,6 +191,7 @@ int main(int argc, char *argv[])
         back.Update(renderer, deltaTime);
         obj.Update(renderer, deltaTime);
         obj1.Update(renderer, deltaTime);
+        enemy.Update(renderer, deltaTime);
         player.Update(renderer, deltaTime);
         front.Update(renderer, deltaTime);
 

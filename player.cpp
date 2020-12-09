@@ -2,18 +2,17 @@
 #include <Windows.h>
 #include "camera.h"
 
-Player::Player() : CollObject()
+Player::Player() : CollObject(), ShootDelay(0.0f), shootInterval(0.0f), AtkDelay(0.0f), atkInterval(0.0f)
 {
-	Type = ObjectType::PLAYER;
 }
 
 Player::Player(glm::vec2 pos, glm::vec2 size, glm::vec3 color, glm::vec2 velocity)
-	: CollObject(pos, size, color, velocity)
+	: CollObject(pos, size, color, velocity), ShootDelay(0.0f), shootInterval(0.0f), AtkDelay(0.0f), atkInterval(0.0f)
 {
-	Type = ObjectType::PLAYER;
-	Camera::startX = pos.x;
-	Camera::posX = pos.x;
-	Camera::prevX = pos.x;
+}
+
+Player::~Player()
+{
 	for (auto bullet : bullets)
 		delete bullet.second;
 }
@@ -59,9 +58,11 @@ void Player::Update(SpriteRenderer& renderer, float deltatime)
 		status = (int)PlayerAnimStatus::IDLE;
 	}
 
-	if (key[0x58] & 0x80) {
+	atkInterval += deltatime;
+	if (key[0x58] & 0x80 && atkInterval >= AtkDelay) {
 		status = (int)PlayerAnimStatus::ATKDWN_SWD;
 		isContinuous = false;
+		ShootBullets("swd", 0.0f, glm::vec2(30.0f, 0.0f), 0.1f);
 	}
 
 	if (key[0x5A] & 0x80 && Velocity.y == 0.0f) {
@@ -71,19 +72,25 @@ void Player::Update(SpriteRenderer& renderer, float deltatime)
 	if (Velocity.y != 0.0f)
 	{
 		status = (int)PlayerAnimStatus::JUMP;
-		if (key[0x58] & 0x80) {
+		if (key[0x58] & 0x80 && atkInterval >= AtkDelay) {
 			status = (int)PlayerAnimStatus::ATKUP_SWD;
 			isContinuous = false;
 		}
-		else if(dash > 1.0f)
+		else if (dash > 1.0f)
 			status = (int)PlayerAnimStatus::DASHATK;
 	}
 
-	if (key[0x43] & 0x80) {
+	shootInterval += deltatime;
+	if (key[0x43] & 0x80 && shootInterval >= ShootDelay) {
+		shootInterval = 0.0f;
 		status = (int)PlayerAnimStatus::SHOOT_ORBIT;
-		ShootBullets("orbit");
 		isContinuous = false;
+		ShootBullets("orbit", 600.0f, glm::vec2(70.0f, -15.0f));
 	}
+
+	if (status == (int)PlayerAnimStatus::ATKUP_SWD ||
+		status == (int)PlayerAnimStatus::ATKDWN_SWD)
+		atkInterval = 0.0f;
 
 	if(anim->GetAnimStatus() != status)
 		anim->SetAnimStatus(status, isContinuous);
@@ -93,11 +100,26 @@ void Player::Update(SpriteRenderer& renderer, float deltatime)
 		bullet.second->Update(renderer, deltatime);
 }
 
+void Player::Init()
+{
+	Type = ObjectType::PLAYER;
+	ShootDelay = 1.0f;
+	shootInterval = ShootDelay;
+	AtkDelay = 0.5f;
+	atkInterval = AtkDelay;
+
+	Camera::player = this;
+	Camera::startX = Position.x;
+	Camera::posX = Position.x;
+	Camera::prevX = Position.x;
+}
+
 void Player::CreateBullets(std::string name, Collider* coll, int index)
 {
 	std::string str = name + std::to_string(index);
 	bullets[str] = new Bullet(Position, glm::vec2(2.0f, 2.0f));
 	bullets[str]->Create(coll);
+	bullets[str]->Type = ObjectType::P_HITBOX;
 }
 
 void Player::CreateBullets(std::string name, SpriteAnimation anim, Texture2D sprite, Collider* coll, int index)
@@ -105,9 +127,10 @@ void Player::CreateBullets(std::string name, SpriteAnimation anim, Texture2D spr
 	std::string str = name + std::to_string(index);
 	bullets[str] = new Bullet(Position, glm::vec2(2.0f, 2.0f));
 	bullets[str]->Create(anim, sprite, coll);
+	bullets[str]->Type = ObjectType::P_BULLET;
 }
 
-void Player::ShootBullets(std::string name)
+void Player::ShootBullets(std::string name, float speed, glm::vec2 pos, float time, float distance)
 {
 	size_t size = bullets.size();
 	for (size_t i = 0;i < size;++i)
@@ -117,10 +140,14 @@ void Player::ShootBullets(std::string name)
 			break;
 		if (!bullets[str]->Active)
 		{
-			bullets[str]->Position = Position;
-			bullets[str]->collider->SetPos(Position.x, Position.y);
+			glm::vec2 position(Position.x + (xFlip ? pos.x : -pos.x), Position.y + pos.y);
+			bullets[str]->Position = position;
+			bullets[str]->collider->SetPos(position.x, position.y);
+			bullets[str]->StartPosition = position;
+			bullets[str]->TimeDuration = time;
+			bullets[str]->DistDuration = distance;
 			bullets[str]->xFlip = xFlip;
-			bullets[str]->Velocity.x = xFlip ? 50.0f : -50.0f;
+			bullets[str]->Velocity.x = xFlip ? speed : -speed;
 			bullets[str]->Active = true;
 			break;
 		}

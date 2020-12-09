@@ -28,6 +28,10 @@ GameObject::~GameObject()
         delete anim;
 }
 
+void GameObject::Init()
+{
+}
+
 void GameObject::Create(SpriteAnimation anim, Texture2D sprite)
 {
     this->anim = new SpriteAnimation(anim);

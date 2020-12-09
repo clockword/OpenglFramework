@@ -22,7 +22,9 @@ enum class ObjectType {
     WALL = 2,
     ENEMY = 3,
     P_BULLET = 4,
-    E_BULLET = 5
+    E_BULLET = 5,
+    P_HITBOX = 6,
+    E_HITBOX = 7
 };
 
 class GameObject
@@ -45,8 +47,10 @@ public:
     // constructor(s)
     GameObject();
     GameObject(glm::vec2 pos, glm::vec2 size, glm::vec3 color = glm::vec3(1.0f), glm::vec2 velocity = glm::vec2(0.0f, 0.0f));
-
     virtual ~GameObject();
+
+    virtual void Init();
+
     // draw sprite
     virtual void Create(SpriteAnimation anim, Texture2D sprite);
     virtual void Update(SpriteRenderer& renderer, float deltatime);

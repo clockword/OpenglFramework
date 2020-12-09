@@ -14,6 +14,10 @@ CollObject::~CollObject()
 {
 }
 
+void CollObject::Init()
+{
+}
+
 void CollObject::Create(SpriteAnimation anim)
 {
 	return;

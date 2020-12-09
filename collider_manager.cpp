@@ -1,6 +1,7 @@
 #include "collider_manager.h"
 #include <fstream>
 #include "rect.h"
+#include "bullet.h"
 
 std::map<std::string, Collider*> ColliderManager::Colliders;
 
@@ -57,15 +58,16 @@ void ColliderManager::FixedUpdate(float deltatime)
 				if (other.second == iter.second ||
 					!other.second->gameObject->Active)
 					continue;
+
+				Rect othRect(other.second->X + other.second->CollX - other.second->Width * 0.5f,
+					other.second->X + other.second->CollX + other.second->Width * 0.5f,
+					other.second->Y + other.second->CollY - other.second->Height * 0.5f,
+					other.second->Y + other.second->CollY + other.second->Height * 0.5f);
+
 				switch (other.second->gameObject->Type)
 				{
 				case ObjectType::WALL:
 				{
-					Rect othRect(other.second->X + other.second->CollX - other.second->Width * 0.5f,
-						other.second->X + other.second->CollX + other.second->Width * 0.5f,
-						other.second->Y + other.second->CollY - other.second->Height * 0.5f,
-						other.second->Y + other.second->CollY + other.second->Height * 0.5f);
-
 					if (velocity.y > 0.0f && rect.Bottom > othRect.Top &&
 						rect.Left < othRect.Right && rect.Right > othRect.Left &&
 						iter.second->Y + collY + height * 0.5f <= othRect.Top) {
@@ -80,23 +82,60 @@ void ColliderManager::FixedUpdate(float deltatime)
 					}
 					else if (velocity.x < 0.0f && rect.Left < othRect.Right &&
 						rect.Top < othRect.Bottom && rect.Bottom > othRect.Top &&
-						rect.Left > othRect.Left){
+						rect.Left > othRect.Left) {
 						position.x = othRect.Right + width * 0.5f;
 					}
 					else if (velocity.x > 0.0f && rect.Right > othRect.Left &&
 						rect.Top < othRect.Bottom && rect.Bottom > othRect.Top &&
-						rect.Right < othRect.Right){
+						rect.Right < othRect.Right) {
 						position.x = othRect.Left - width * 0.5f;
 					}
+				}break;
+				case ObjectType::ENEMY:
+				{
+					//if (rect.Left < othRect.Right && rect.Right > othRect.Left &&
+					//	rect.Top < othRect.Bottom && rect.Bottom > othRect.Top)
+					//	iter.second->gameObject->Velocity += glm::vec2(500.0f, -500.0f);
 				}break;
 				}
 			}
 		}break;
+		case ObjectType::P_HITBOX:
+		case ObjectType::E_HITBOX:
 		case ObjectType::E_BULLET:
 		case ObjectType::P_BULLET:
 		{
-			
-		}break;
+			for (auto other : Colliders)
+			{
+				if (other.second == iter.second ||
+					!other.second->gameObject->Active)
+					continue;
+
+				Rect othRect(other.second->X + other.second->CollX - other.second->Width * 0.5f,
+					other.second->X + other.second->CollX + other.second->Width * 0.5f,
+					other.second->Y + other.second->CollY - other.second->Height * 0.5f,
+					other.second->Y + other.second->CollY + other.second->Height * 0.5f);
+
+				switch (other.second->gameObject->Type)
+				{
+				case ObjectType::WALL:
+				{
+					if (type == ObjectType::P_HITBOX || type == ObjectType::E_HITBOX)
+						break;
+
+					if (rect.Left < othRect.Right && rect.Right > othRect.Left &&
+						rect.Top < othRect.Bottom && rect.Bottom > othRect.Top)
+						iter.second->gameObject->Active = false;
+				}break;
+				case ObjectType::ENEMY:
+				{
+					if (rect.Left < othRect.Right && rect.Right > othRect.Left &&
+						rect.Top < othRect.Bottom && rect.Bottom > othRect.Top)
+						iter.second->gameObject->Active = false;
+				}break;
+				}
+			}
+		}
 		}
 
 		iter.second->X = position.x;
