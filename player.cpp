@@ -128,6 +128,7 @@ void Player::Init()
 	MaxHp = 100.0f;
 	currentHp = MaxHp;
 
+	yFlip = true;
 	Camera::player = this;
 	Camera::startX = Position.x;
 	Camera::posX = Position.x;
