@@ -5,6 +5,10 @@
 class Collider;
 class CollObject : public GameObject
 {
+protected:
+	bool gravity;
+	glm::vec2 moveDir;
+	float damage;
 public:
 	Collider* collider;
 
@@ -18,6 +22,13 @@ public:
 	virtual void Create(SpriteAnimation anim);
 	virtual void Create(SpriteAnimation anim, Texture2D sprite, Collider* coll);
 	virtual void Update(SpriteRenderer& renderer, float deltatime);
+
+	virtual glm::vec2 GetMoveDir() { return moveDir; }
+	virtual void SetMoveDir(glm::vec2 direction) { moveDir = direction; }
+	virtual bool IsGravity() { return gravity; }
+	virtual float GetDamage() { return damage; }
+	virtual void SetDamage(float damage) { this->damage = damage; }
 protected:
 	virtual void Draw(SpriteRenderer& renderer);
+	virtual void Move(glm::vec2 direction) { this->moveDir = direction; }
 };

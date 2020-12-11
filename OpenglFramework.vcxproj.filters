@@ -30,6 +30,9 @@
     <Filter Include="소스 파일\unused">
       <UniqueIdentifier>{df8fb50a-e28d-4bc5-9f74-c1fc27ab7822}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\game_object\enemies">
+      <UniqueIdentifier>{b8968bb2-9a93-46a8-80c4-aded8e0af35a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sprite_renderer.cpp">
@@ -101,6 +104,9 @@
     <ClCompile Include="enemy.cpp">
       <Filter>소스 파일\game_object</Filter>
     </ClCompile>
+    <ClCompile Include="en_archer.cpp">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource_manager.h">
@@ -162,6 +168,9 @@
     </ClInclude>
     <ClInclude Include="enemy.h">
       <Filter>소스 파일\game_object</Filter>
+    </ClInclude>
+    <ClInclude Include="en_archer.h">
+      <Filter>소스 파일\game_object\enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

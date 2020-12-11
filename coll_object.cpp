@@ -1,12 +1,11 @@
 #include "coll_object.h"
 
-CollObject::CollObject() : GameObject(), collider(nullptr)
+CollObject::CollObject() : GameObject(), collider(nullptr), moveDir(glm::vec2(0.0f, 0.0f)), gravity(false), damage(0.0f)
 {
-	Type = ObjectType::DEFAULT;
 }
 
 CollObject::CollObject(glm::vec2 pos, glm::vec2 size, glm::vec3 color, glm::vec2 velocity)
-	: GameObject(pos, size, color, velocity), collider(nullptr)
+	: GameObject(pos, size, color, velocity), collider(nullptr), moveDir(glm::vec2(0.0f, 0.0f)), gravity(false), damage(0.0f)
 {
 }
 

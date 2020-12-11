@@ -6,7 +6,7 @@
 #include "resource_manager.h"
 #include "collider_manager.h"
 #include "player.h"
-#include "enemy.h"
+#include "en_archer.h"
 #include "background.h"
 #include "bullet.h"
 
@@ -124,9 +124,9 @@ int main(int argc, char *argv[])
         ResourceManager::LoadTexture("./Resource/Image/player.png", true, "player"), ColliderManager::LoadCollider("./Resource/ColliderData/player.txt", "player"));
     for(int i = 0; i < 10; ++i)
         player.CreateBullets("orbit", ResourceManager::LoadAnims("./Resource/VertexData/player_orbit.txt", ResourceManager::GetTexture("player"), "player_orbit"),
-            ResourceManager::LoadTexture("./Resource/Image/player.png", true, "player"), ColliderManager::LoadCollider("./Resource/ColliderData/player_orbit.txt", "orbit"), i);
+            ResourceManager::LoadTexture("./Resource/Image/player.png", true, "player"), ColliderManager::LoadCollider("./Resource/ColliderData/player_orbit.txt", "orbit"), ObjectType::P_BULLET, i);
     for (int i = 0; i < 10; ++i)
-        player.CreateBullets("swd", ColliderManager::LoadCollider("./Resource/ColliderData/player_swd.txt", "swd"), i);
+        player.CreateBullets("swd", ColliderManager::LoadCollider("./Resource/ColliderData/player_swd.txt", "swd"), ObjectType::P_HITBOX, i);
 
     CollObject obj(glm::vec2(1000.0f, 600.0f), glm::vec2(2.0f, 2.0f));
     obj.Create(ResourceManager::LoadAnims("./Resource/VertexData/dungeon2_tile.txt", ResourceManager::GetTexture("dungeon2_tile"), "dungeon2_tile"),
@@ -138,9 +138,12 @@ int main(int argc, char *argv[])
         ResourceManager::LoadTexture("./Resource/Image/dungeon2_tile.png", true, "dungeon2_tile"), ColliderManager::LoadCollider("./Resource/ColliderData/dungeon2_tile1.txt", "dungeon2_tile1"));
     obj1.Type = ObjectType::WALL;
 
-    Enemy enemy(glm::vec2(0.0f, 0.0f), glm::vec2(2.0f, 2.0f));
+    EnArcher enemy(glm::vec2(0.0f, 0.0f), glm::vec2(2.0f, 2.0f));
     enemy.Create(ResourceManager::LoadAnims("./Resource/VertexData/en_archer.txt", ResourceManager::GetTexture("en_archer"), "en_archer"),
         ResourceManager::LoadTexture("./Resource/Image/en_archer.png", true, "en_archer"), ColliderManager::LoadCollider("./Resource/ColliderData/en_archer.txt", "en_archer"));
+    for (int i = 0; i < 10; ++i)
+        enemy.CreateBullets("arrow", ResourceManager::LoadAnims("./Resource/VertexData/archer_arrow.txt", ResourceManager::GetTexture("en_archer"), "archer_arrow"),
+            ResourceManager::LoadTexture("./Resource/Image/en_archer.png", true, "en_archer"), ColliderManager::LoadCollider("./Resource/ColliderData/archer_arrow.txt", "arrow"), ObjectType::E_BULLET, i);
 
     player.Init();
     obj.Init();

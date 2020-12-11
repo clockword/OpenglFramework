@@ -1,12 +1,15 @@
 #include "bullet.h"
 #include <glm/gtx/norm.hpp>
+#include <glm/gtx/vector_angle.hpp>
 
-Bullet::Bullet() : CollObject(), timeInterval(0.0f), StartPosition({0.0f,0.0f}), TimeDuration(0.0f), DistDuration(0.0f)
+Bullet::Bullet() : CollObject(), timeInterval(0.0f), StartPosition({ 0.0f,0.0f }), TimeDuration(0.0f),
+DistDuration(0.0f), IsIndependent(false), playerPos(glm::vec2(0.0f, 0.0f)), shootPos(glm::vec2(0.0f, 0.0f))
 {
 }
 
 Bullet::Bullet(glm::vec2 pos, glm::vec2 size, glm::vec3 color, glm::vec2 velocity) :
-	CollObject(pos, size, color, velocity), timeInterval(0.0f), StartPosition({ 0.0f,0.0f }), TimeDuration(0.0f), DistDuration(0.0f)
+	CollObject(pos, size, color, velocity), timeInterval(0.0f), StartPosition({ 0.0f,0.0f }), TimeDuration(0.0f), 
+	DistDuration(0.0f), IsIndependent(false), playerPos(glm::vec2(0.0f, 0.0f)), shootPos(glm::vec2(0.0f, 0.0f))
 {
 }
 
@@ -34,6 +37,16 @@ void Bullet::Update(SpriteRenderer& renderer, float deltatime)
 		timeInterval = 0.0f;
 		return;
 	}
+
+	if (!IsIndependent)
+	{
+		Position = playerPos + (xFlip ? shootPos : -shootPos);
+		collider->SetPos(Position.x, Position.y);
+	}
+
+	//if (gravity) {
+	//	Rotation = Velocity.y > 0.0f ? acosf(Velocity.y / Velocity.x) / 3.14159265f * 180.0f - 45.0f : acosf(Velocity.y / Velocity.x) / 3.14159265f * -180.0f + 45.0f;
+	//}
 
 	timeInterval += deltatime;
 	if (timeInterval >= TimeDuration)

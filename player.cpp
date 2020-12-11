@@ -2,12 +2,12 @@
 #include <Windows.h>
 #include "camera.h"
 
-Player::Player() : CollObject(), ShootDelay(0.0f), shootInterval(0.0f), AtkDelay(0.0f), atkInterval(0.0f)
+Player::Player() : CollObject(), ShootDelay(0.0f), shootInterval(0.0f), AtkDelay(0.0f), atkInterval(0.0f), isControl(true), MaxHp(0.0f), currentHp(0.0f)
 {
 }
 
 Player::Player(glm::vec2 pos, glm::vec2 size, glm::vec3 color, glm::vec2 velocity)
-	: CollObject(pos, size, color, velocity), ShootDelay(0.0f), shootInterval(0.0f), AtkDelay(0.0f), atkInterval(0.0f)
+	: CollObject(pos, size, color, velocity), ShootDelay(0.0f), shootInterval(0.0f), AtkDelay(0.0f), atkInterval(0.0f), isControl(true), MaxHp(0.0f), currentHp(0.0f)
 {
 }
 
@@ -33,59 +33,71 @@ void Player::Update(SpriteRenderer& renderer, float deltatime)
 	Camera::prevX = Camera::posX;
 	Camera::posX = Position.x;
 
-	if (key[VK_SHIFT] & 0x80)
-		dash = 1.5f;
+	atkInterval += deltatime;
+	shootInterval += deltatime;
 
-	if (key[VK_LEFT] & 0x80)
+	if (isControl)
 	{
-		Velocity.x = -speed * dash;
-		xFlip = false;
-		status = (int)PlayerAnimStatus::WALK;
-		if (dash > 1.0f)
-			status = (int)PlayerAnimStatus::DASHATK;
-	}
-	else if (key[VK_RIGHT] & 0x80)
-	{
-		Velocity.x = speed * dash;
-		xFlip = true;
-		status = (int)PlayerAnimStatus::WALK;
-		if (dash > 1.0f)
-			status = (int)PlayerAnimStatus::DASHATK;
+		glm::vec2 moveDirection = moveDir;
+
+		if (key[VK_SHIFT] & 0x80)
+			dash = 1.5f;
+
+		if (key[VK_LEFT] & 0x80)
+		{
+			moveDirection.x = -speed * dash;
+			xFlip = false;
+			status = (int)PlayerAnimStatus::WALK;
+			if (dash > 1.0f)
+				status = (int)PlayerAnimStatus::DASHATK;
+		}
+		else if (key[VK_RIGHT] & 0x80)
+		{
+			moveDirection.x = speed * dash;
+			xFlip = true;
+			status = (int)PlayerAnimStatus::WALK;
+			if (dash > 1.0f)
+				status = (int)PlayerAnimStatus::DASHATK;
+		}
+		else
+		{
+			moveDirection.x = 0.0f;
+			status = (int)PlayerAnimStatus::IDLE;
+		}
+
+		if (key[0x58] & 0x80 && atkInterval >= AtkDelay) {
+			status = (int)PlayerAnimStatus::ATKDWN_SWD;
+			isContinuous = false;
+			ShootBullets("swd", false, false, 10.0f, glm::vec2(30.0f, 0.0f), 0.3f);
+		}
+
+		if (key[0x5A] & 0x80 && Velocity.y == 0.0f) {
+			moveDirection.y = -900.0f;
+		}
+
+		if (Velocity.y != 0.0f)
+		{
+			status = (int)PlayerAnimStatus::JUMP;
+			if (key[0x58] & 0x80 && atkInterval >= AtkDelay) {
+				status = (int)PlayerAnimStatus::ATKUP_SWD;
+				isContinuous = false;
+			}
+			else if (dash > 1.0f && moveDirection.x != 0.0f)
+				status = (int)PlayerAnimStatus::DASHATK;
+		}
+
+		if (key[0x43] & 0x80 && shootInterval >= ShootDelay) {
+			shootInterval = 0.0f;
+			status = (int)PlayerAnimStatus::SHOOT_ORBIT;
+			isContinuous = false;
+			ShootBullets("orbit", true, false, 10.0f, glm::vec2(70.0f, -15.0f), 10.0f, glm::vec2(600.0f, 0.0f));
+		}
+
+		Move(moveDirection);
 	}
 	else
 	{
-		Velocity.x = 0.0f;
-		status = (int)PlayerAnimStatus::IDLE;
-	}
-
-	atkInterval += deltatime;
-	if (key[0x58] & 0x80 && atkInterval >= AtkDelay) {
-		status = (int)PlayerAnimStatus::ATKDWN_SWD;
-		isContinuous = false;
-		ShootBullets("swd", 0.0f, glm::vec2(30.0f, 0.0f), 0.1f);
-	}
-
-	if (key[0x5A] & 0x80 && Velocity.y == 0.0f) {
-		Velocity.y += -900.0f;
-	}
-
-	if (Velocity.y != 0.0f)
-	{
-		status = (int)PlayerAnimStatus::JUMP;
-		if (key[0x58] & 0x80 && atkInterval >= AtkDelay) {
-			status = (int)PlayerAnimStatus::ATKUP_SWD;
-			isContinuous = false;
-		}
-		else if (dash > 1.0f)
-			status = (int)PlayerAnimStatus::DASHATK;
-	}
-
-	shootInterval += deltatime;
-	if (key[0x43] & 0x80 && shootInterval >= ShootDelay) {
-		shootInterval = 0.0f;
-		status = (int)PlayerAnimStatus::SHOOT_ORBIT;
-		isContinuous = false;
-		ShootBullets("orbit", 600.0f, glm::vec2(70.0f, -15.0f));
+		status = (int)PlayerAnimStatus::SWOON;
 	}
 
 	if (status == (int)PlayerAnimStatus::ATKUP_SWD ||
@@ -96,17 +108,25 @@ void Player::Update(SpriteRenderer& renderer, float deltatime)
 		anim->SetAnimStatus(status, isContinuous);
 
 	CollObject::Update(renderer, deltatime);
-	for (auto bullet : bullets)
+	for (auto bullet : bullets) {
+		if (!bullet.second->IsIndependent) {
+			bullet.second->playerPos = Position;
+			bullet.second->xFlip = xFlip;
+		}
 		bullet.second->Update(renderer, deltatime);
+	}
 }
 
 void Player::Init()
 {
 	Type = ObjectType::PLAYER;
+	gravity = true;
 	ShootDelay = 1.0f;
 	shootInterval = ShootDelay;
 	AtkDelay = 0.5f;
 	atkInterval = AtkDelay;
+	MaxHp = 100.0f;
+	currentHp = MaxHp;
 
 	Camera::player = this;
 	Camera::startX = Position.x;
@@ -114,23 +134,23 @@ void Player::Init()
 	Camera::prevX = Position.x;
 }
 
-void Player::CreateBullets(std::string name, Collider* coll, int index)
+void Player::CreateBullets(std::string name, Collider* coll, ObjectType type, int index)
 {
 	std::string str = name + std::to_string(index);
 	bullets[str] = new Bullet(Position, glm::vec2(2.0f, 2.0f));
 	bullets[str]->Create(coll);
-	bullets[str]->Type = ObjectType::P_HITBOX;
+	bullets[str]->Type = type;
 }
 
-void Player::CreateBullets(std::string name, SpriteAnimation anim, Texture2D sprite, Collider* coll, int index)
+void Player::CreateBullets(std::string name, SpriteAnimation anim, Texture2D sprite, Collider* coll, ObjectType type, int index)
 {
 	std::string str = name + std::to_string(index);
 	bullets[str] = new Bullet(Position, glm::vec2(2.0f, 2.0f));
 	bullets[str]->Create(anim, sprite, coll);
-	bullets[str]->Type = ObjectType::P_BULLET;
+	bullets[str]->Type = type;
 }
 
-void Player::ShootBullets(std::string name, float speed, glm::vec2 pos, float time, float distance)
+void Player::ShootBullets(std::string name, bool isIndependent, bool gravity, float damage, glm::vec2 pos, float time, glm::vec2 speed, float distance)
 {
 	size_t size = bullets.size();
 	for (size_t i = 0;i < size;++i)
@@ -141,13 +161,18 @@ void Player::ShootBullets(std::string name, float speed, glm::vec2 pos, float ti
 		if (!bullets[str]->Active)
 		{
 			glm::vec2 position(Position.x + (xFlip ? pos.x : -pos.x), Position.y + pos.y);
+			bullets[str]->IsIndependent = isIndependent;
+			bullets[str]->SetGravity(gravity);
+			bullets[str]->SetDamage(damage);
 			bullets[str]->Position = position;
 			bullets[str]->collider->SetPos(position.x, position.y);
+			bullets[str]->shootPos = pos;
 			bullets[str]->StartPosition = position;
 			bullets[str]->TimeDuration = time;
 			bullets[str]->DistDuration = distance;
-			bullets[str]->xFlip = xFlip;
-			bullets[str]->Velocity.x = xFlip ? speed : -speed;
+			bullets[str]->xFlip = !xFlip;
+			bullets[str]->Velocity.x = (xFlip ? speed.x : -speed.x);
+			bullets[str]->Velocity.y = speed.y;
 			bullets[str]->Active = true;
 			break;
 		}

@@ -27,11 +27,12 @@ void ColliderManager::FixedUpdate(float deltatime)
 	float gravity = 58.86f;
 	for (auto iter : Colliders)
 	{
-		if (!iter.second->gameObject->Active)
+		if (!iter.second->gameObject->Active ||
+			iter.second->gameObject->IsDestroyed)
 			continue;
 
 		ObjectType type = iter.second->gameObject->Type;
-		if(type == ObjectType::PLAYER || type == ObjectType::ENEMY)
+		if(iter.second->gameObject->IsGravity())
 			iter.second->gameObject->Velocity.y += gravity;
 
 		float collX = iter.second->CollX;
@@ -39,6 +40,8 @@ void ColliderManager::FixedUpdate(float deltatime)
 		float width = iter.second->Width;
 		float height = iter.second->Height;
 		glm::vec2 velocity = iter.second->gameObject->Velocity * deltatime;
+		if (iter.second->gameObject->GetIsControl())
+			velocity += iter.second->gameObject->GetMoveDir() * deltatime;
 		glm::vec2 position = glm::vec2(iter.second->X, iter.second->Y) + velocity;
 		Rect rect(position.x + collX - width * 0.5f, position.x + collX + width * 0.5f,
 			position.y + collY - height * 0.5f, position.y + collY + height * 0.5f);
@@ -50,13 +53,16 @@ void ColliderManager::FixedUpdate(float deltatime)
 		{
 			if (rect.Bottom > 645.0f) {
 				position.y = 645.0f - collY - height * 0.5f;
-				iter.second->gameObject->Velocity.y = 0.0f;
+				iter.second->gameObject->Velocity = glm::vec2(0.0f, 0.0f);
+				iter.second->gameObject->SetMoveDir(glm::vec2(iter.second->gameObject->GetMoveDir().x, 0.0f));
+				iter.second->gameObject->SetIsControl(true);
 			}
 
 			for (auto other : Colliders)
 			{
 				if (other.second == iter.second ||
-					!other.second->gameObject->Active)
+					!other.second->gameObject->Active ||
+					other.second->gameObject->IsDestroyed)
 					continue;
 
 				Rect othRect(other.second->X + other.second->CollX - other.second->Width * 0.5f,
@@ -72,13 +78,16 @@ void ColliderManager::FixedUpdate(float deltatime)
 						rect.Left < othRect.Right && rect.Right > othRect.Left &&
 						iter.second->Y + collY + height * 0.5f <= othRect.Top) {
 						position.y = othRect.Top - height * 0.5f;
-						iter.second->gameObject->Velocity.y = 0.0f;
+						iter.second->gameObject->Velocity = glm::vec2(0.0f, 0.0f);
+						iter.second->gameObject->SetMoveDir(glm::vec2(iter.second->gameObject->GetMoveDir().x, 0.0f));
+						iter.second->gameObject->SetIsControl(true);
 					}
 					else if (velocity.y < 0.0f && rect.Top < othRect.Bottom &&
 						rect.Left < othRect.Right && rect.Right > othRect.Left &&
 						iter.second->Y + collY - height * 0.5f >= othRect.Bottom) {
 						position.y = othRect.Bottom + height * 0.5f;
-						iter.second->gameObject->Velocity.y = 1.0f;
+						iter.second->gameObject->Velocity = glm::vec2(0.0f, 1.0f);
+						iter.second->gameObject->SetMoveDir(glm::vec2(iter.second->gameObject->GetMoveDir().x, 0.0f));
 					}
 					else if (velocity.x < 0.0f && rect.Left < othRect.Right &&
 						rect.Top < othRect.Bottom && rect.Bottom > othRect.Top &&
@@ -93,9 +102,16 @@ void ColliderManager::FixedUpdate(float deltatime)
 				}break;
 				case ObjectType::ENEMY:
 				{
-					//if (rect.Left < othRect.Right && rect.Right > othRect.Left &&
-					//	rect.Top < othRect.Bottom && rect.Bottom > othRect.Top)
-					//	iter.second->gameObject->Velocity += glm::vec2(500.0f, -500.0f);
+					if (type == ObjectType::ENEMY || !iter.second->gameObject->GetIsControl() ||
+						!other.second->gameObject->GetIsControl())
+						break;
+
+					if (rect.Left < othRect.Right && rect.Right > othRect.Left &&
+						rect.Top < othRect.Bottom && rect.Bottom > othRect.Top) 
+					{
+						iter.second->gameObject->SetIsControl(false);
+						iter.second->gameObject->Velocity = glm::vec2((iter.second->gameObject->xFlip ? -300.0f : 300.0f) , -500.0f);
+					}
 				}break;
 				}
 			}
@@ -105,10 +121,15 @@ void ColliderManager::FixedUpdate(float deltatime)
 		case ObjectType::E_BULLET:
 		case ObjectType::P_BULLET:
 		{
+			if (rect.Bottom > 645.0f) {
+				iter.second->gameObject->Active = false;
+			}
+
 			for (auto other : Colliders)
 			{
 				if (other.second == iter.second ||
-					!other.second->gameObject->Active)
+					!other.second->gameObject->Active ||
+					other.second->gameObject->IsDestroyed)
 					continue;
 
 				Rect othRect(other.second->X + other.second->CollX - other.second->Width * 0.5f,
@@ -129,9 +150,31 @@ void ColliderManager::FixedUpdate(float deltatime)
 				}break;
 				case ObjectType::ENEMY:
 				{
+					if (type == ObjectType::E_BULLET || type == ObjectType::E_HITBOX)
+						break;
+
 					if (rect.Left < othRect.Right && rect.Right > othRect.Left &&
-						rect.Top < othRect.Bottom && rect.Bottom > othRect.Top)
+						rect.Top < othRect.Bottom && rect.Bottom > othRect.Top) {
+						other.second->gameObject->Velocity = glm::vec2((iter.second->gameObject->xFlip ? 300.0f : -300.0f), -500.0f);
+						other.second->gameObject->SetIsControl(false);
 						iter.second->gameObject->Active = false;
+						other.second->gameObject->SetHp(other.second->gameObject->GetHp() - iter.second->gameObject->GetDamage());
+					}
+				}break;
+				case ObjectType::PLAYER:
+				{
+					if (type == ObjectType::P_BULLET || type == ObjectType::P_HITBOX ||
+						!other.second->gameObject->GetIsControl())
+						break;
+
+					if (rect.Left < othRect.Right && rect.Right > othRect.Left &&
+						rect.Top < othRect.Bottom && rect.Bottom > othRect.Top) {
+						other.second->gameObject->Velocity = glm::vec2((iter.second->gameObject->xFlip ? -300.0f : 300.0f), -500.0f);
+						other.second->gameObject->SetIsControl(false);
+						iter.second->gameObject->Active = false;
+						other.second->gameObject->SetHp(other.second->gameObject->GetHp() - iter.second->gameObject->GetDamage());
+						
+					}
 				}break;
 				}
 			}

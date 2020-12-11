@@ -10,14 +10,9 @@ Enemy::Enemy(glm::vec2 pos, glm::vec2 size, glm::vec3 color, glm::vec2 velocity)
 {
 }
 
-void Enemy::Update(SpriteRenderer& renderer, float deltatime)
-{
-	CollObject::Update(renderer, deltatime);
-}
-
 void Enemy::Init()
 {
 	Type = ObjectType::ENEMY;
 	player = Camera::player;
-	anim->SetAnimStatus(3);
+	gravity = true;
 }

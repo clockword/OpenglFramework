@@ -1,18 +1,14 @@
 #pragma once
 #include "coll_object.h"
 
-enum class BulletType
-{
-	PL_ORBIT = 0,
-	PL_SWD,
-	PL_DASHSWD
-};
-
 class Bullet : public CollObject
 {
 protected:
 	float timeInterval;
 public:
+	glm::vec2 playerPos;
+	glm::vec2 shootPos;
+	bool IsIndependent;
 	glm::vec2 StartPosition;
 	float TimeDuration;
 	float DistDuration;
@@ -26,6 +22,8 @@ public:
 	virtual void Create(SpriteAnimation anim, Texture2D sprite, Collider* coll);
 
 	virtual void Update(SpriteRenderer& renderer, float deltatime);
+
+	void SetGravity(bool gravity) { this->gravity = gravity; }
 protected:
 	virtual void Draw(SpriteRenderer& renderer);
 };

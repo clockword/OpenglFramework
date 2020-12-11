@@ -54,6 +54,16 @@ public:
     // draw sprite
     virtual void Create(SpriteAnimation anim, Texture2D sprite);
     virtual void Update(SpriteRenderer& renderer, float deltatime);
+
+    virtual bool GetIsControl() { return false; }
+    virtual void SetIsControl(bool control) {}
+    virtual glm::vec2 GetMoveDir() { return glm::vec2(0.0f, 0.0f); }
+    virtual void SetMoveDir(glm::vec2 direction) {}
+    virtual bool IsGravity() { return false; }
+    virtual float GetHp() { return 0.0f; }
+    virtual void SetHp(float hp) {}
+    virtual float GetDamage() { return 0.0f; }
+    virtual void SetDamage(float damage) {}
 protected:
     //void Create()
     virtual void Draw(SpriteRenderer& renderer);

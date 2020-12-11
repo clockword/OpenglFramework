@@ -156,6 +156,7 @@
     <ClCompile Include="collider_manager.cpp" />
     <ClCompile Include="coll_object.cpp" />
     <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="en_archer.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game_object.cpp" />
     <ClCompile Include="glad.c" />
@@ -181,6 +182,7 @@
     <ClInclude Include="collider_manager.h" />
     <ClInclude Include="coll_object.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="en_archer.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="game_object.h" />
     <ClInclude Include="level.h" />
