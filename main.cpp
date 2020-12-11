@@ -3,14 +3,8 @@
 
 #include <iostream>
 
-#include "resource_manager.h"
-#include "collider_manager.h"
-#include "player.h"
-#include "en_archer.h"
-#include "background.h"
-#include "bullet.h"
-
 #include "game.h"
+#include "resource_manager.h"
 
 // settings
 const unsigned int SCR_WIDTH = 1280;
@@ -71,10 +65,6 @@ int main(int argc, char *argv[])
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // initialize game
-    // ---------------
-    //Breakout.Init();
-
     ResourceManager::LoadShader("vs_sprite.glsl", "fs_sprite.glsl", nullptr, "sprite");
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(SCR_WIDTH), static_cast<float>(SCR_HEIGHT), 0.0f, -1.0f, 1.0f);
     ResourceManager::GetShader("sprite").Use().SetInteger("sprite", 0);
@@ -83,77 +73,8 @@ int main(int argc, char *argv[])
     Shader temp = ResourceManager::GetShader("sprite");
     SpriteRenderer renderer(temp);
 
-    Bullet bullet;
-
-    Background back;
-    std::vector<Texture2D> sprites;
-    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_10.png").c_str(), false, "layer_10"));
-    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_11.png").c_str(), false, "layer_11"));
-    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_12.png").c_str(), false, "layer_12"));
-    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_13.png").c_str(), false, "layer_13"));
-    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_14.png").c_str(), false, "layer_14"));
-    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_15.png").c_str(), false, "layer_15"));
-    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_16.png").c_str(), false, "layer_16"));
-    back.PushSprite(sprites, glm::vec2(2.0f, 2.0f));
-    sprites.clear();
-    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_20.png").c_str(), true, "layer_20"));
-    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_21.png").c_str(), true, "layer_21"));
-    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_22.png").c_str(), true, "layer_22"));
-    back.PushSprite(sprites, glm::vec2(2.0f, 2.0f));
-    sprites.clear();
-    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_40.png").c_str(), true, "layer_40"));
-    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_41.png").c_str(), true, "layer_41"));
-    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_42.png").c_str(), true, "layer_42"));
-    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_43.png").c_str(), true, "layer_43"));
-    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_44.png").c_str(), true, "layer_44"));
-    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_45.png").c_str(), true, "layer_45"));
-    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_46.png").c_str(), true, "layer_46"));
-    back.PushSprite(sprites, glm::vec2(2.0f, 2.0f));
-    sprites.clear();
-    Background front;
-    sprites.push_back(ResourceManager::LoadTexture(((std::string)"./Resource/Backgrounds/Dungeon2/layer_3.png").c_str(), true, "layer_3"));
-    front.PushSprite(sprites, glm::vec2(2.0f, 2.0f));
-    sprites.clear();
-
-    //CollObject obj({ 1000.0f,100.0f }, { 1.0f,1.0f }, ResourceManager::LoadTexture(((std::string)"./Resource/Image/Electric_Knight.png").c_str(), true, "dog"));
-    //obj.Create(ResourceManager::LoadAnims(((std::string)"./Resource/VertexData/Electric_Knight.txt").c_str(), obj.Sprite, "dog"),
-    //    ColliderManager::LoadCollider(((std::string)"./Resource/ColliderData/dog.txt").c_str(), "dog"));
-
-    Player player(glm::vec2(500.0f, 0.0f), glm::vec2(2.0f, 2.0f));
-    player.Create(ResourceManager::LoadAnims("./Resource/VertexData/player.txt", ResourceManager::GetTexture("player"), "player"),
-        ResourceManager::LoadTexture("./Resource/Image/player.png", true, "player"), ColliderManager::LoadCollider("./Resource/ColliderData/player.txt", "player"));
-    for(int i = 0; i < 10; ++i)
-        player.CreateBullets("orbit", ResourceManager::LoadAnims("./Resource/VertexData/player_orbit.txt", ResourceManager::GetTexture("player"), "player_orbit"),
-            ResourceManager::LoadTexture("./Resource/Image/player.png", true, "player"), ColliderManager::LoadCollider("./Resource/ColliderData/player_orbit.txt", "orbit"), ObjectType::P_BULLET, i);
-    for (int i = 0; i < 10; ++i)
-        player.CreateBullets("swd", ColliderManager::LoadCollider("./Resource/ColliderData/player_swd.txt", "swd"), ObjectType::P_HITBOX, i);
-
-    CollObject obj(glm::vec2(1000.0f, 600.0f), glm::vec2(2.0f, 2.0f));
-    obj.Create(ResourceManager::LoadAnims("./Resource/VertexData/dungeon2_tile.txt", ResourceManager::GetTexture("dungeon2_tile"), "dungeon2_tile"),
-        ResourceManager::LoadTexture("./Resource/Image/dungeon2_tile.png", true, "dungeon2_tile"), ColliderManager::LoadCollider("./Resource/ColliderData/dungeon2_tile1.txt","dungeon2_tile1"));
-    obj.Type = ObjectType::WALL;
-
-    CollObject obj1(glm::vec2(600.0f, 500.0f), glm::vec2(2.0f, 2.0f));
-    obj1.Create(ResourceManager::LoadAnims("./Resource/VertexData/dungeon2_tile.txt", ResourceManager::GetTexture("dungeon2_tile"), "dungeon2_tile"),
-        ResourceManager::LoadTexture("./Resource/Image/dungeon2_tile.png", true, "dungeon2_tile"), ColliderManager::LoadCollider("./Resource/ColliderData/dungeon2_tile1.txt", "dungeon2_tile1"));
-    obj1.Type = ObjectType::WALL;
-
-    EnArcher enemy(glm::vec2(0.0f, 0.0f), glm::vec2(2.0f, 2.0f));
-    enemy.Create(ResourceManager::LoadAnims("./Resource/VertexData/en_archer.txt", ResourceManager::GetTexture("en_archer"), "en_archer"),
-        ResourceManager::LoadTexture("./Resource/Image/en_archer.png", true, "en_archer"), ColliderManager::LoadCollider("./Resource/ColliderData/en_archer.txt", "en_archer"));
-    for (int i = 0; i < 10; ++i)
-        enemy.CreateBullets("arrow", ResourceManager::LoadAnims("./Resource/VertexData/archer_arrow.txt", ResourceManager::GetTexture("en_archer"), "archer_arrow"),
-            ResourceManager::LoadTexture("./Resource/Image/en_archer.png", true, "en_archer"), ColliderManager::LoadCollider("./Resource/ColliderData/archer_arrow.txt", "arrow"), ObjectType::E_BULLET, i);
-
-    player.Init();
-    obj.Init();
-    obj1.Init();
-    enemy.Init();
-
-    player.Active = true;
-    obj.Active = true;
-    obj1.Active = true;
-    enemy.Active = true;
+    Game game;
+    game.CreateLevel("./Resource/Level/lvl_test.txt");
 
     // deltaTime variables
     // -------------------
@@ -191,12 +112,8 @@ int main(int argc, char *argv[])
         // ------
         glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        back.Update(renderer, deltaTime);
-        obj.Update(renderer, deltaTime);
-        obj1.Update(renderer, deltaTime);
-        enemy.Update(renderer, deltaTime);
-        player.Update(renderer, deltaTime);
-        front.Update(renderer, deltaTime);
+
+        game.Update(renderer, deltaTime);
 
         if (fixedDuration > 0.02f)
         {
@@ -205,17 +122,14 @@ int main(int argc, char *argv[])
             fixedLastFrame = fixedFrame;
             fixedDuration = 0.0f;
             /*fixedUpdate*/
-            ColliderManager::FixedUpdate(fixedDeltaTime);
-            /*game.FixedUpdate(fixedDeltaTime);*/
+            game.FixedUpdate(fixedDeltaTime);
         }
 
         glfwSwapBuffers(window);
     }
     // delete all resources as loaded using the resource manager
     // ---------------------------------------------------------
-    ResourceManager::Clear();
-    ColliderManager::Delete();
-    /*game.Clear();*/
+    game.ClearSingletonObjects();
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------

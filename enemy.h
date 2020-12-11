@@ -3,12 +3,25 @@
 
 enum class EnemyType
 {
-
+	NOTEN = 0,
+	ARCHER,
+	BANDIT,
+	BARBARIAN,
+	BOMBER,
+	DARKNIGHT,
+	HOUND,
+	MAGE,
+	SHIELDER,
+	V_ARCHER,
+	V_HOUND,
+	V_MAGE,
+	BOSS
 };
 
 class Enemy : public Player
 {
 protected:
+	EnemyType enType;
 	Player* player;
 public:
 	Enemy();
@@ -17,5 +30,7 @@ public:
 	virtual void Update(SpriteRenderer& renderer, float deltatime) = 0;
 
 	virtual void Init();
+
+	virtual int GetEnemyType() { return (int)enType; }
 };
 

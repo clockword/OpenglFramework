@@ -9,6 +9,7 @@ SoloSprite::SoloSprite()
 	Position = glm::vec2(0.0f, 0.0f);
 	Size = glm::vec2(1.0f, 1.0f);
 	Width = 0;
+	Speed = 0.0f;
 }
 
 SoloSprite::~SoloSprite()

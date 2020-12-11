@@ -47,6 +47,8 @@ void Bullet::Update(SpriteRenderer& renderer, float deltatime)
 	//if (gravity) {
 	//	Rotation = Velocity.y > 0.0f ? acosf(Velocity.y / Velocity.x) / 3.14159265f * 180.0f - 45.0f : acosf(Velocity.y / Velocity.x) / 3.14159265f * -180.0f + 45.0f;
 	//}
+	if (Type == ObjectType::P_BULLET)
+		Rotation += xFlip ? -40.0f : 40.0f;
 
 	timeInterval += deltatime;
 	if (timeInterval >= TimeDuration)

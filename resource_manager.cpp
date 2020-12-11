@@ -194,7 +194,7 @@ void ResourceManager::loadAnimFromFile(const char* file, Texture2D texture, std:
         //t_xCenter.push_back(nums[4]);
         //t_yCenter.push_back(nums[5]);
         t_xCenter.push_back(nums[0] + (int)(nums[2] * 0.5));
-        t_yCenter.push_back(nums[1] + (int)nums[3]);
+        t_yCenter.push_back(nums[1] + (int)(nums[3] * 0.5));
 
         if (nums.size() == 5)
         {

@@ -1,13 +1,14 @@
 #include "player.h"
 #include <Windows.h>
 #include "camera.h"
+#include "resource_manager.h"
 
-Player::Player() : CollObject(), ShootDelay(0.0f), shootInterval(0.0f), AtkDelay(0.0f), atkInterval(0.0f), isControl(true), MaxHp(0.0f), currentHp(0.0f)
+Player::Player() : CollObject(), ShootDelay(0.0f), shootInterval(0.0f), AtkDelay(0.0f), atkInterval(0.0f), isControl(true), MaxHp(0.0f), currentHp(0.0f), hpBar(nullptr)
 {
 }
 
 Player::Player(glm::vec2 pos, glm::vec2 size, glm::vec3 color, glm::vec2 velocity)
-	: CollObject(pos, size, color, velocity), ShootDelay(0.0f), shootInterval(0.0f), AtkDelay(0.0f), atkInterval(0.0f), isControl(true), MaxHp(0.0f), currentHp(0.0f)
+	: CollObject(pos, size, color, velocity), ShootDelay(0.0f), shootInterval(0.0f), AtkDelay(0.0f), atkInterval(0.0f), isControl(true), MaxHp(0.0f), currentHp(0.0f), hpBar(nullptr)
 {
 }
 
@@ -15,6 +16,15 @@ Player::~Player()
 {
 	for (auto bullet : bullets)
 		delete bullet.second;
+	if (hpBar != nullptr)
+		delete hpBar;
+}
+
+void Player::Create(SpriteAnimation anim, Texture2D sprite, Collider* coll)
+{
+	CollObject::Create(anim, sprite, coll);
+	hpBar = new GameObject(Position, glm::vec2(1.0f, 0.5f));
+	hpBar->Create(ResourceManager::LoadAnims("./Resource/VertexData/hpbar.txt", ResourceManager::GetTexture("player"), "hpbar"), ResourceManager::GetTexture("player"));
 }
 
 void Player::Update(SpriteRenderer& renderer, float deltatime)
@@ -49,7 +59,7 @@ void Player::Update(SpriteRenderer& renderer, float deltatime)
 			xFlip = false;
 			status = (int)PlayerAnimStatus::WALK;
 			if (dash > 1.0f)
-				status = (int)PlayerAnimStatus::DASHATK;
+				status = (int)PlayerAnimStatus::DASH;
 		}
 		else if (key[VK_RIGHT] & 0x80)
 		{
@@ -57,7 +67,7 @@ void Player::Update(SpriteRenderer& renderer, float deltatime)
 			xFlip = true;
 			status = (int)PlayerAnimStatus::WALK;
 			if (dash > 1.0f)
-				status = (int)PlayerAnimStatus::DASHATK;
+				status = (int)PlayerAnimStatus::DASH;
 		}
 		else
 		{
@@ -68,7 +78,7 @@ void Player::Update(SpriteRenderer& renderer, float deltatime)
 		if (key[0x58] & 0x80 && atkInterval >= AtkDelay) {
 			status = (int)PlayerAnimStatus::ATKDWN_SWD;
 			isContinuous = false;
-			ShootBullets("swd", false, false, 10.0f, glm::vec2(30.0f, 0.0f), 0.3f);
+			ShootBullets("player_swd", false, false, 10.0f, glm::vec2(30.0f, 0.0f), 0.3f);
 		}
 
 		if (key[0x5A] & 0x80 && Velocity.y == 0.0f) {
@@ -83,14 +93,14 @@ void Player::Update(SpriteRenderer& renderer, float deltatime)
 				isContinuous = false;
 			}
 			else if (dash > 1.0f && moveDirection.x != 0.0f)
-				status = (int)PlayerAnimStatus::DASHATK;
+				status = (int)PlayerAnimStatus::DASH;
 		}
 
 		if (key[0x43] & 0x80 && shootInterval >= ShootDelay) {
 			shootInterval = 0.0f;
 			status = (int)PlayerAnimStatus::SHOOT_ORBIT;
 			isContinuous = false;
-			ShootBullets("orbit", true, false, 10.0f, glm::vec2(70.0f, -15.0f), 10.0f, glm::vec2(600.0f, 0.0f));
+			ShootBullets("player_orbit", true, false, 10.0f, glm::vec2(70.0f, -15.0f), 10.0f, glm::vec2(600.0f, 0.0f));
 		}
 
 		Move(moveDirection);
@@ -107,6 +117,10 @@ void Player::Update(SpriteRenderer& renderer, float deltatime)
 	if(anim->GetAnimStatus() != status)
 		anim->SetAnimStatus(status, isContinuous);
 
+	if (currentHp >= 0.0f)
+		hpBar->Size.x = currentHp / MaxHp;
+	hpBar->Position = Position + glm::vec2(0.0f, -60.0f);
+	hpBar->Update(renderer, deltatime);
 	CollObject::Update(renderer, deltatime);
 	for (auto bullet : bullets) {
 		if (!bullet.second->IsIndependent) {
@@ -128,8 +142,6 @@ void Player::Init()
 	MaxHp = 100.0f;
 	currentHp = MaxHp;
 
-	yFlip = true;
-	Camera::player = this;
 	Camera::startX = Position.x;
 	Camera::posX = Position.x;
 	Camera::prevX = Position.x;

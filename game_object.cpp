@@ -64,11 +64,11 @@ void GameObject::Draw(SpriteRenderer& renderer)
     if (yFlip)
     {
         size.y = -size.y;
-        pos.y += anim->GetCenterY() * this->Size.y - anim->GetHeight() * this->Size.y * 0.5f;
+        pos.y += anim->GetCenterY() * this->Size.y;
     }
     else
     {
-        pos.y -= anim->GetCenterY() * this->Size.y - anim->GetHeight() * this->Size.y * 0.5f;
+        pos.y -= anim->GetCenterY() * this->Size.y;
     }
 
 

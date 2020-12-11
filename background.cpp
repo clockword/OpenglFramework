@@ -17,7 +17,7 @@ Background::~Background()
         delete[] objects;
 }
 
-void Background::PushSprite(std::vector<Texture2D> sprites, glm::vec2 scale, float maxAniInterval)
+void Background::PushSprite(std::vector<Texture2D> sprites, glm::vec2 scale, float speed, float maxAniInterval)
 {
     if (objects != nullptr)
     {
@@ -35,6 +35,8 @@ void Background::PushSprite(std::vector<Texture2D> sprites, glm::vec2 scale, flo
         objects[size - 1].Size = scale;
         objects[size - 2].MaxAniInterval = maxAniInterval;
         objects[size - 1].MaxAniInterval = maxAniInterval;
+        objects[size - 2].Speed = speed;
+        objects[size - 1].Speed = speed;
         objects[size - 1].Position.x = objects[size - 2].Position.x + objects[size - 2].Width * scale.x;
         delete[] temp;
     }
@@ -47,6 +49,8 @@ void Background::PushSprite(std::vector<Texture2D> sprites, glm::vec2 scale, flo
         objects[1].Size = scale;
         objects[0].MaxAniInterval = maxAniInterval;
         objects[1].MaxAniInterval = maxAniInterval;
+        objects[0].Speed = speed;
+        objects[1].Speed = speed;
         objects[1].Position.x = objects[0].Position.x + objects[0].Width * scale.x;
         size += 2;
     }
@@ -80,7 +84,7 @@ void Background::Update(SpriteRenderer& renderer, float deltatime)
                 objects[i].Position.x = objects[partner].Position.x + width;
             else if (objects[i].Position.x > width)
                 objects[i].Position.x = objects[partner].Position.x - width;
-            objects[i].Position.x -= Camera::posX - Camera::prevX;
+            objects[i].Position.x -= (Camera::posX - Camera::prevX) * objects[i].Speed;
             objects[i].Update(renderer, deltatime);
         }
     }

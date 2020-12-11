@@ -45,10 +45,17 @@ void EnArcher::Update(SpriteRenderer& renderer, float deltatime)
 		{
 			xFlip = direction.x > 0.0f ? true : false;
 			shootInterval = 0.0f;
-			ShootBullets("arrow", true, true, 1.0f, glm::vec2(0.0f, 0.0f), 10.0f, glm::vec2(2000.0f, -400.0f), 3000.0f);
+			ShootBullets("archer_arrow", true, true, 1.0f, glm::vec2(0.0f, 0.0f), 10.0f, glm::vec2(2000.0f, -400.0f), 3000.0f);
 			status = (int)ArcherAnimStatus::SHOOT;
 			isContinuous = false;
 		}
+		else
+		{
+
+		}
+
+		if (moveDir.y != 0.0f)
+			moveDirection.x = xFlip ? speed : -speed;
 
 		Move(moveDirection);
 	}
@@ -60,6 +67,10 @@ void EnArcher::Update(SpriteRenderer& renderer, float deltatime)
 	if (status != anim->GetAnimStatus())
 		anim->SetAnimStatus(status, isContinuous);
 
+	if (currentHp >= 0.0f)
+		hpBar->Size.x = currentHp / MaxHp;
+	hpBar->Position = Position + glm::vec2(0.0f, -60.0f);
+	hpBar->Update(renderer, deltatime);
 	CollObject::Update(renderer, deltatime);
 	for (auto bullet : bullets) {
 		bullet.second->Update(renderer, deltatime);
@@ -69,9 +80,32 @@ void EnArcher::Update(SpriteRenderer& renderer, float deltatime)
 void EnArcher::Init()
 {
 	Enemy::Init();
+	enType = EnemyType::ARCHER;
 	anim->SetAnimStatus((int)ArcherAnimStatus::RUN);
 	ShootDelay = 1.5f;
 	shootInterval = ShootDelay;
 	MaxHp = 100.0f;
 	currentHp = MaxHp;
+	damage = 1.0f;
+}
+
+void EnArcher::CollisionStepped(std::vector<CollObject*> obj)
+{
+	if (obj.size() == 1)
+	{
+		if (Position.x > obj[0]->Position.x + obj[0]->collider->Width * 0.5f && xFlip && moveDir.y == 0.0f && isControl ||
+			Position.x < obj[0]->Position.x - obj[0]->collider->Width * 0.5f && !xFlip && moveDir.y == 0.0f && isControl) {
+			moveDir.y += -850.0f;
+		}
+	}
+}
+
+void EnArcher::CollisionSticked(std::vector<CollObject*> obj)
+{
+	for (auto coll : obj)
+	{
+		if (Position.x < coll->Position.x && moveDir.x > 0.0f && moveDir.y == 0.0f && isControl ||
+			Position.x > coll->Position.x && moveDir.x < 0.0f && moveDir.y == 0.0f && isControl)
+			moveDir.y += -850.0f;
+	}
 }

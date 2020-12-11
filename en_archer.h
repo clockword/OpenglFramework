@@ -17,4 +17,7 @@ public:
 	virtual void Update(SpriteRenderer& renderer, float deltatime);
 
 	virtual void Init();
+
+	virtual void CollisionStepped(std::vector<CollObject*> obj);
+	virtual void CollisionSticked(std::vector<CollObject*> obj);
 };

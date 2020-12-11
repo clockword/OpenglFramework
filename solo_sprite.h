@@ -14,6 +14,7 @@ public:
 	glm::vec2   Position, Size;
 	unsigned int Width;
 	float MaxAniInterval;
+	float Speed;
 
 	SoloSprite();
 	~SoloSprite();

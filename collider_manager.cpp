@@ -58,6 +58,9 @@ void ColliderManager::FixedUpdate(float deltatime)
 				iter.second->gameObject->SetIsControl(true);
 			}
 
+			std::vector<CollObject*> step;
+			std::vector<CollObject*> stick;
+
 			for (auto other : Colliders)
 			{
 				if (other.second == iter.second ||
@@ -74,6 +77,9 @@ void ColliderManager::FixedUpdate(float deltatime)
 				{
 				case ObjectType::WALL:
 				{
+					bool isStep = false;
+					bool isStick = false;
+
 					if (velocity.y > 0.0f && rect.Bottom > othRect.Top &&
 						rect.Left < othRect.Right && rect.Right > othRect.Left &&
 						iter.second->Y + collY + height * 0.5f <= othRect.Top) {
@@ -81,6 +87,7 @@ void ColliderManager::FixedUpdate(float deltatime)
 						iter.second->gameObject->Velocity = glm::vec2(0.0f, 0.0f);
 						iter.second->gameObject->SetMoveDir(glm::vec2(iter.second->gameObject->GetMoveDir().x, 0.0f));
 						iter.second->gameObject->SetIsControl(true);
+						isStep = true;
 					}
 					else if (velocity.y < 0.0f && rect.Top < othRect.Bottom &&
 						rect.Left < othRect.Right && rect.Right > othRect.Left &&
@@ -93,12 +100,19 @@ void ColliderManager::FixedUpdate(float deltatime)
 						rect.Top < othRect.Bottom && rect.Bottom > othRect.Top &&
 						rect.Left > othRect.Left) {
 						position.x = othRect.Right + width * 0.5f;
+						isStick = true;
 					}
 					else if (velocity.x > 0.0f && rect.Right > othRect.Left &&
 						rect.Top < othRect.Bottom && rect.Bottom > othRect.Top &&
 						rect.Right < othRect.Right) {
 						position.x = othRect.Left - width * 0.5f;
+						isStick = true;
 					}
+
+					if (isStep)
+						step.push_back(other.second->gameObject);
+					if (isStick)
+						stick.push_back(other.second->gameObject);
 				}break;
 				case ObjectType::ENEMY:
 				{
@@ -111,10 +125,15 @@ void ColliderManager::FixedUpdate(float deltatime)
 					{
 						iter.second->gameObject->SetIsControl(false);
 						iter.second->gameObject->Velocity = glm::vec2((iter.second->gameObject->xFlip ? -300.0f : 300.0f) , -500.0f);
+						iter.second->gameObject->SetHp(iter.second->gameObject->GetHp() - other.second->gameObject->GetDamage());
 					}
 				}break;
 				}
 			}
+
+			iter.second->gameObject->CollisionStepped(step);
+			iter.second->gameObject->CollisionSticked(stick);
+
 		}break;
 		case ObjectType::P_HITBOX:
 		case ObjectType::E_HITBOX:
@@ -173,7 +192,6 @@ void ColliderManager::FixedUpdate(float deltatime)
 						other.second->gameObject->SetIsControl(false);
 						iter.second->gameObject->Active = false;
 						other.second->gameObject->SetHp(other.second->gameObject->GetHp() - iter.second->gameObject->GetDamage());
-						
 					}
 				}break;
 				}

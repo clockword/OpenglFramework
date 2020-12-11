@@ -2,6 +2,8 @@
 #include "level.h"
 #include "collider_manager.h"
 #include "resource_manager.h"
+#include "en_archer.h"
+#include "camera.h"
 
 Level::Level()
 {
@@ -15,19 +17,25 @@ Level::~Level()
 	Clear();
 }
 
+void Level::Init()
+{
+	for (auto obj : objects) {
+		obj.second->Init();
+		obj.second->Active = true;
+	}
+}
+
 void Level::Create(std::string file)
 {
 	std::ifstream fileopen(file.c_str());
 	char ch[256];
 	std::string str;
 	std::vector<std::string> arrstr;
+	std::vector<Texture2D> backgrounds;
+	bool loadObj = false;
 
 	while (!fileopen.eof())
 	{
-		std::string name;
-		int sort_order;
-		int x, y;
-
 		char t = '\0';
 		int index = 0;
 		fileopen.getline(ch, 256);
@@ -35,7 +43,7 @@ void Level::Create(std::string file)
 		{
 			while (index < 256)
 			{
-				t = ch[index];
+				t = ch[index++];
 				if (t == ' ' || t == '\0')
 					break;
 				str += t;
@@ -45,33 +53,120 @@ void Level::Create(std::string file)
 			if (t == '\0')
 				break;
 		}
-		name = arrstr[0];
-		sort_order = std::stoi(arrstr[1]);
-		x = std::stoi(arrstr[2]);
-		y = std::stoi(arrstr[3]);
-
-		std::string species;
-		species = name[0] + name[1];
-		std::string obj_name = name;
-		obj_name.erase(0, 3);
-		if (species == "so") {
-			//objects[sort_order] = new GameObject({x,y},{1.0f,1.0f},)
+		if (arrstr[0] == "~") {
+			loadObj = true;
+			arrstr.clear();
+			continue;
 		}
-		else if (species == "sc") {
+		if (loadObj)
+		{
+			std::string name;
+			int sort_order;
+			int x, y;
 
-		}
-		else if (species == "bg") {
+			sort_order = std::stoi(arrstr[0]);
+			name = arrstr[1];
+			x = std::stoi(arrstr[2]);
+			y = std::stoi(arrstr[3]);
 
-		}
-		else if (species == "pl") {
+			std::string species = name;
+			species.erase(2, species.size() - 2);
+			std::string obj_name = name;
+			obj_name.erase(0, 3);
 
-		}
-		else if (species == "en") {
-			/*nop*/
-		}
+			std::string imagePathBase = "./Resource/Image/";
+			std::string vertexPathBase = "./Resource/VertexData/";
+			std::string colliderPathBase = "./Resource/ColliderData/";
 
-		//objects[sort_order] = new GameObject();
-		//objects[sort_order]->Create();
+			std::string imagePath = imagePathBase + obj_name + ".png";
+			std::string vertexPath = vertexPathBase + obj_name + ".txt";
+			std::string colliderPath = colliderPathBase + obj_name + ".txt";
+
+			if (species == "sc") {
+				std::string cPath = colliderPathBase + obj_name + arrstr[4] + ".txt";
+				std::string dName = obj_name + arrstr[4];
+				objects[sort_order] = new CollObject(glm::vec2(x, y), glm::vec2(2.0f, 2.0f));
+				objects[sort_order]->Create(ResourceManager::LoadAnims(vertexPath.c_str(), ResourceManager::GetTexture(obj_name), obj_name),
+					ResourceManager::LoadTexture(imagePath.c_str(), true, obj_name), ColliderManager::LoadCollider(cPath.c_str(), dName.c_str()));
+				objects[sort_order]->SetAnimStatus(std::stoi(arrstr[4]));
+
+				objects[sort_order]->Type = ObjectType::WALL;
+			}
+			else if (species == "pl") {
+				int size = arrstr.size();
+				objects[sort_order] = Camera::player = new Player(glm::vec2(x, y), glm::vec2(2.0f, 2.0f));
+				objects[sort_order]->Create(ResourceManager::LoadAnims(vertexPath.c_str(), ResourceManager::GetTexture(obj_name), obj_name),
+					ResourceManager::LoadTexture(imagePath.c_str(), true, obj_name), ColliderManager::LoadCollider(colliderPath.c_str(), obj_name));
+				for (int i = 4; i < size; i += 3)
+				{
+					std::string vPath = vertexPathBase + arrstr[i] + ".txt";
+					std::string cPath = colliderPathBase + arrstr[i] + ".txt";
+					int bSize = std::stoi(arrstr[i + 1]);
+					for (int j = 0; j < bSize; ++j) {
+						if (arrstr[i + 2] == "B") {
+							objects[sort_order]->CreateBullets(arrstr[i], ResourceManager::LoadAnims(vPath.c_str(), ResourceManager::GetTexture(obj_name), arrstr[i]),
+								ResourceManager::LoadTexture(imagePath.c_str(), true, obj_name), ColliderManager::LoadCollider(cPath.c_str(), arrstr[i]), ObjectType::P_BULLET, j);
+						}
+						else if (arrstr[i + 2] == "H") {
+							objects[sort_order]->CreateBullets(arrstr[i], ColliderManager::LoadCollider(cPath.c_str(), arrstr[i]), ObjectType::P_HITBOX, j);
+						}
+					}
+				}
+			}
+			else if (species == "en") {
+				int size = arrstr.size();
+				if (obj_name == "archer")
+					objects[sort_order] = new EnArcher(glm::vec2(x, y), glm::vec2(2.0f, 2.0f));
+				else if (obj_name == "bandit") {}
+				else if (obj_name == "barbarian") {}
+				else if (obj_name == "bomber") {}
+				else if (obj_name == "darknight") {}
+				else if (obj_name == "hound") {}
+				else if (obj_name == "mage") {}
+				else if (obj_name == "shielder") {}
+				else if (obj_name == "varcher") {}
+				else if (obj_name == "vhound") {}
+				else if (obj_name == "vmage") {}
+				else if (obj_name == "boss") {}
+
+				objects[sort_order]->Create(ResourceManager::LoadAnims(vertexPath.c_str(), ResourceManager::GetTexture(obj_name), obj_name),
+					ResourceManager::LoadTexture(imagePath.c_str(), true, obj_name), ColliderManager::LoadCollider(colliderPath.c_str(), obj_name));
+
+				for (int i = 4; i < size; i += 3)
+				{
+					std::string vPath = vertexPathBase + arrstr[i] + ".txt";
+					std::string cPath = colliderPathBase + arrstr[i] + ".txt";
+					int bSize = std::stoi(arrstr[i + 1]);
+					for (int j = 0; j < bSize; ++j) {
+						if (arrstr[i + 2] == "B") {
+							objects[sort_order]->CreateBullets(arrstr[i], ResourceManager::LoadAnims(vPath.c_str(), ResourceManager::GetTexture(obj_name), arrstr[i]),
+								ResourceManager::LoadTexture(imagePath.c_str(), true, obj_name), ColliderManager::LoadCollider(cPath.c_str(), arrstr[i]), ObjectType::E_BULLET, j);
+						}
+						else if (arrstr[i + 2] == "H") {
+							objects[sort_order]->CreateBullets(arrstr[i], ColliderManager::LoadCollider(cPath.c_str(), arrstr[i]), ObjectType::E_HITBOX, j);
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			bool order = std::stoi(arrstr[0]);
+			std::string backgroundPath = "./Resource/Backgrounds/" + arrstr[1] + '/' + arrstr[2] + ".png";
+			bool alpha = std::stoi(arrstr[3]);
+			std::string name = arrstr[2];
+
+			backgrounds.push_back(ResourceManager::LoadTexture(backgroundPath.c_str(), alpha, name));
+			if (arrstr.size() > 4)
+			{
+				if (!order)
+					back.PushSprite(backgrounds, glm::vec2(std::stof(arrstr[4])), std::stof(arrstr[5]));
+				else
+					front.PushSprite(backgrounds, glm::vec2(std::stof(arrstr[4])), std::stof(arrstr[5]));
+				backgrounds.clear();
+			}
+		}
+		arrstr.clear();
 	}
 
 	this->name = file;
@@ -79,12 +174,10 @@ void Level::Create(std::string file)
 
 void Level::Update(SpriteRenderer & renderer, float deltatime)
 {
-	//std::map<int, GameObject*>::iterator iter = objects.begin();
-	//for (; iter != objects.end(); iter++)
-	//{
-	//}
+	back.Update(renderer, deltatime);
 	for (auto iter : objects)
 		iter.second->Update(renderer, deltatime);
+	front.Update(renderer, deltatime);
 }
 
 void Level::FixedUpdate(float deltatime)

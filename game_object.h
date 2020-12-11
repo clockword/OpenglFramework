@@ -27,6 +27,8 @@ enum class ObjectType {
     E_HITBOX = 7
 };
 
+class Collider;
+class CollObject;
 class GameObject
 {
 protected:
@@ -53,7 +55,13 @@ public:
 
     // draw sprite
     virtual void Create(SpriteAnimation anim, Texture2D sprite);
+    virtual void Create(SpriteAnimation anim, Texture2D sprite, Collider* coll) {}
     virtual void Update(SpriteRenderer& renderer, float deltatime);
+
+    virtual void CreateBullets(std::string name, Collider* coll, ObjectType type, int index) {}
+    virtual void CreateBullets(std::string name, SpriteAnimation anim, Texture2D sprite, Collider* coll, ObjectType type, int index) {}
+
+    virtual void SetAnimStatus(int status) { anim->SetAnimStatus(status); }
 
     virtual bool GetIsControl() { return false; }
     virtual void SetIsControl(bool control) {}
@@ -64,8 +72,11 @@ public:
     virtual void SetHp(float hp) {}
     virtual float GetDamage() { return 0.0f; }
     virtual void SetDamage(float damage) {}
+    virtual int GetEnemyType() { return 0; }
+
+    virtual void CollisionStepped(std::vector<CollObject*> obj) {}
+    virtual void CollisionSticked(std::vector<CollObject*> obj) {}
 protected:
-    //void Create()
     virtual void Draw(SpriteRenderer& renderer);
 };
 
