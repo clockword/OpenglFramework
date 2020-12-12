@@ -83,7 +83,7 @@ void ColliderManager::FixedUpdate(float deltatime)
 					if (velocity.y > 0.0f && rect.Bottom > othRect.Top &&
 						rect.Left < othRect.Right && rect.Right > othRect.Left &&
 						iter.second->Y + collY + height * 0.5f <= othRect.Top) {
-						position.y = othRect.Top - height * 0.5f;
+						position.y = othRect.Top - height * 0.5f - collY;
 						iter.second->gameObject->Velocity = glm::vec2(0.0f, 0.0f);
 						iter.second->gameObject->SetMoveDir(glm::vec2(iter.second->gameObject->GetMoveDir().x, 0.0f));
 						iter.second->gameObject->SetIsControl(true);
@@ -92,20 +92,20 @@ void ColliderManager::FixedUpdate(float deltatime)
 					else if (velocity.y < 0.0f && rect.Top < othRect.Bottom &&
 						rect.Left < othRect.Right && rect.Right > othRect.Left &&
 						iter.second->Y + collY - height * 0.5f >= othRect.Bottom) {
-						position.y = othRect.Bottom + height * 0.5f;
+						position.y = othRect.Bottom + height * 0.5f - collY;
 						iter.second->gameObject->Velocity = glm::vec2(0.0f, 1.0f);
 						iter.second->gameObject->SetMoveDir(glm::vec2(iter.second->gameObject->GetMoveDir().x, 0.0f));
 					}
 					else if (velocity.x < 0.0f && rect.Left < othRect.Right &&
 						rect.Top < othRect.Bottom && rect.Bottom > othRect.Top &&
 						rect.Left > othRect.Left) {
-						position.x = othRect.Right + width * 0.5f;
+						position.x = othRect.Right + width * 0.5f - collX;
 						isStick = true;
 					}
 					else if (velocity.x > 0.0f && rect.Right > othRect.Left &&
 						rect.Top < othRect.Bottom && rect.Bottom > othRect.Top &&
 						rect.Right < othRect.Right) {
-						position.x = othRect.Left - width * 0.5f;
+						position.x = othRect.Left - width * 0.5f - collX;
 						isStick = true;
 					}
 

@@ -20,5 +20,4 @@
 5 pl_player 500 0 player_orbit 3 B player_swd 5 H
 1 sc_dungeon2_tile 1000 600 0
 2 sc_dungeon2_tile 600 500 0
-3 en_archer 0 0 archer_arrow 3 B
-4 en_archer 500 0 archer_arrow 3 B
+3 en_bandit 1000 0 bandit_swd 3 H

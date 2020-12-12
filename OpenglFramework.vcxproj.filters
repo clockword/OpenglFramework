@@ -9,9 +9,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="소스 파일\base_object">
-      <UniqueIdentifier>{96f04e89-5974-4d03-ab17-1cec959a7781}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\shader">
       <UniqueIdentifier>{c5130d20-c6e3-4ef6-b18c-389c37c7e00d}</UniqueIdentifier>
     </Filter>
@@ -32,6 +29,9 @@
     </Filter>
     <Filter Include="소스 파일\game_object\enemies">
       <UniqueIdentifier>{b8968bb2-9a93-46a8-80c4-aded8e0af35a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\base_object">
+      <UniqueIdentifier>{96f04e89-5974-4d03-ab17-1cec959a7781}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +107,39 @@
     <ClCompile Include="en_archer.cpp">
       <Filter>소스 파일\game_object\enemies</Filter>
     </ClCompile>
+    <ClCompile Include="en_bandit.cpp">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="en_vhound.cpp">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="en_vmage.cpp">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="en_varcher.cpp">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="en_shielder.cpp">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="en_mage.cpp">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="en_hound.cpp">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="en_boss.cpp">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="en_bomber.cpp">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="en_barbarian.cpp">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="en_darkknight.cpp">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource_manager.h">
@@ -170,6 +203,39 @@
       <Filter>소스 파일\game_object</Filter>
     </ClInclude>
     <ClInclude Include="en_archer.h">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="en_bandit.h">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="en_barbarian.h">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="en_bomber.h">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="en_boss.h">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="en_hound.h">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="en_mage.h">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="en_shielder.h">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="en_varcher.h">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="en_vhound.h">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="en_vmage.h">
+      <Filter>소스 파일\game_object\enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="en_darkknight.h">
       <Filter>소스 파일\game_object\enemies</Filter>
     </ClInclude>
   </ItemGroup>

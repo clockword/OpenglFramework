@@ -3,6 +3,17 @@
 #include "collider_manager.h"
 #include "resource_manager.h"
 #include "en_archer.h"
+#include "en_bandit.h"
+#include "en_barbarian.h"
+#include "en_bomber.h"
+#include "en_boss.h"
+#include "en_darkknight.h"
+#include "en_hound.h"
+#include "en_mage.h"
+#include "en_shielder.h"
+#include "en_varcher.h"
+#include "en_vhound.h"
+#include "en_vmage.h"
 #include "camera.h"
 
 Level::Level()
@@ -117,17 +128,28 @@ void Level::Create(std::string file)
 				int size = arrstr.size();
 				if (obj_name == "archer")
 					objects[sort_order] = new EnArcher(glm::vec2(x, y), glm::vec2(2.0f, 2.0f));
-				else if (obj_name == "bandit") {}
-				else if (obj_name == "barbarian") {}
-				else if (obj_name == "bomber") {}
-				else if (obj_name == "darknight") {}
-				else if (obj_name == "hound") {}
-				else if (obj_name == "mage") {}
-				else if (obj_name == "shielder") {}
-				else if (obj_name == "varcher") {}
-				else if (obj_name == "vhound") {}
-				else if (obj_name == "vmage") {}
-				else if (obj_name == "boss") {}
+				else if (obj_name == "bandit")
+					objects[sort_order] = new EnBandit(glm::vec2(x, y), glm::vec2(2.0f, 2.0f));
+				else if (obj_name == "barbarian")
+					objects[sort_order] = new EnBarbarian(glm::vec2(x, y), glm::vec2(2.0f, 2.0f));
+				else if (obj_name == "bomber") 
+					objects[sort_order] = new EnBomber(glm::vec2(x, y), glm::vec2(2.0f, 2.0f));
+				else if (obj_name == "darknight")
+					objects[sort_order] = new EnDarkknight(glm::vec2(x, y), glm::vec2(2.0f, 2.0f));
+				else if (obj_name == "hound")
+					objects[sort_order] = new EnHound(glm::vec2(x, y), glm::vec2(2.0f, 2.0f));
+				else if (obj_name == "mage") 
+					objects[sort_order] = new EnMage(glm::vec2(x, y), glm::vec2(2.0f, 2.0f));
+				else if (obj_name == "shielder") 
+					objects[sort_order] = new EnShielder(glm::vec2(x, y), glm::vec2(2.0f, 2.0f));
+				else if (obj_name == "varcher")
+					objects[sort_order] = new EnVarcher(glm::vec2(x, y), glm::vec2(2.0f, 2.0f));
+				else if (obj_name == "vhound")
+					objects[sort_order] = new EnVhound(glm::vec2(x, y), glm::vec2(2.0f, 2.0f));
+				else if (obj_name == "vmage")
+					objects[sort_order] = new EnVmage(glm::vec2(x, y), glm::vec2(2.0f, 2.0f));
+				else if (obj_name == "boss")
+					objects[sort_order] = new EnBoss(glm::vec2(x, y), glm::vec2(2.0f, 2.0f));
 
 				objects[sort_order]->Create(ResourceManager::LoadAnims(vertexPath.c_str(), ResourceManager::GetTexture(obj_name), obj_name),
 					ResourceManager::LoadTexture(imagePath.c_str(), true, obj_name), ColliderManager::LoadCollider(colliderPath.c_str(), obj_name));

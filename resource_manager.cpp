@@ -191,14 +191,23 @@ void ResourceManager::loadAnimFromFile(const char* file, Texture2D texture, std:
         t_vao.push_back(ImportVAO(nums, texture));
         t_width.push_back(nums[2]);
         t_height.push_back(nums[3]);
-        //t_xCenter.push_back(nums[4]);
-        //t_yCenter.push_back(nums[5]);
-        t_xCenter.push_back(nums[0] + (int)(nums[2] * 0.5));
-        t_yCenter.push_back(nums[1] + (int)(nums[3] * 0.5));
-
-        if (nums.size() == 5)
+        if (nums.size() == 4 || nums.size() == 5)
         {
-            interval_max.push_back((float)nums[4]);
+            t_xCenter.push_back(nums[0] + (int)(nums[2] * 0.5));
+            t_yCenter.push_back(nums[1] + (int)(nums[3] * 0.5));
+        }
+        else if (nums.size() == 6 || nums.size() == 7)
+        {
+            t_xCenter.push_back(nums[0] + (int)(nums[2] * 0.5) + nums[4]);
+            t_yCenter.push_back(nums[1] + (int)(nums[3] * 0.5) + nums[5]);
+        }
+
+        if (nums.size() == 5 || nums.size() == 7)
+        {
+            if(nums.size() == 5)
+                interval_max.push_back((float)nums[4]);
+            else
+                interval_max.push_back((float)nums[6]);
             vao.push_back(t_vao);
             xCenter.push_back(t_xCenter);
             yCenter.push_back(t_yCenter);
