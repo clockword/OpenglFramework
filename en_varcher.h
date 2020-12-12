@@ -1,6 +1,13 @@
 #pragma once
 #include "enemy.h"
 
+enum class VArcherAnimStatus
+{
+	SHOOT = 1,
+	SWOON = 2,
+	RUN = 3
+};
+
 class EnVarcher : public Enemy
 {
 public:

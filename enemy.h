@@ -8,7 +8,7 @@ enum class EnemyType
 	BANDIT,
 	BARBARIAN,
 	BOMBER,
-	DARKNIGHT,
+	DARKKNIGHT,
 	HOUND,
 	MAGE,
 	SHIELDER,

@@ -1,6 +1,12 @@
 #pragma once
 #include "enemy.h"
 
+enum class BomberAnimStatus
+{
+	SWOON = 3,
+	RUN = 4
+};
+
 class EnBomber : public Enemy
 {
 public:

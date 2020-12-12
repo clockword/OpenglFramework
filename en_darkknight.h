@@ -1,6 +1,16 @@
 #pragma once
 #include "enemy.h"
 
+enum class DarkknightAnimStatus
+{
+	ATK = 0,
+	ATK_SHD = 1,
+	SWOON = 2,
+	SWOON_SHD = 3,
+	RUN = 4,
+	RUN_SHD = 5
+};
+
 class EnDarkknight : public Enemy
 {
 public:

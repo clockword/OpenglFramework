@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
     SpriteRenderer renderer(temp);
 
     Game game;
-    game.CreateLevel("./Resource/Level/lvl_test.txt");
+    game.Init();
 
     // deltaTime variables
     // -------------------

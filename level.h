@@ -9,6 +9,7 @@ class Level
 {
 private:
 	Background back;
+	Background vBack;
 	Background front;
 	std::map<int, GameObject*> objects;
 public:

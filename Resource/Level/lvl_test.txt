@@ -17,7 +17,16 @@
 0 Dungeon2 layer_46 1 2.0f 0.9f
 1 Dungeon2 layer_3 1 2.0f 1.0f
 ~
-5 pl_player 500 0 player_orbit 3 B player_swd 5 H
-1 sc_dungeon2_tile 1000 600 0
-2 sc_dungeon2_tile 600 500 0
-3 en_bandit 1000 0 bandit_swd 3 H
+99 pl_player 640 0 player_orbit 3 B player_swd 5 H
+6 sc_dungeon2_tile 1000 500 0
+7 sc_dungeon2_tile 1000 300 1
+8 sc_dungeon2_tile 1210 535 2
+9 sc_dungeon1_tile 700 535 0
+10 sc_dungeon1_tile 700 300 1
+11 sc_dungeon1_tile 1600 535 2
+12 sc_dungeon3_tile 400 550 0
+13 sc_dungeon3_tile 0 530 1
+14 sc_dungeon3_tile 300 400 2
+15 sc_dungeon3_tile -200 600 3
+16 sc_dungeon3_tile 300 200 4
+17 en_archer 0 0 archer_arrow 3 B

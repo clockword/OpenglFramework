@@ -64,7 +64,9 @@ void Level::Create(std::string file)
 			if (t == '\0')
 				break;
 		}
-		if (arrstr[0] == "~") {
+		if (arrstr[0] == "~" || arrstr[0] == "-") {
+			if (arrstr[0] == "-")
+				back.IsMoving = true;
 			loadObj = true;
 			arrstr.clear();
 			continue;
@@ -134,7 +136,7 @@ void Level::Create(std::string file)
 					objects[sort_order] = new EnBarbarian(glm::vec2(x, y), glm::vec2(2.0f, 2.0f));
 				else if (obj_name == "bomber") 
 					objects[sort_order] = new EnBomber(glm::vec2(x, y), glm::vec2(2.0f, 2.0f));
-				else if (obj_name == "darknight")
+				else if (obj_name == "darkknight")
 					objects[sort_order] = new EnDarkknight(glm::vec2(x, y), glm::vec2(2.0f, 2.0f));
 				else if (obj_name == "hound")
 					objects[sort_order] = new EnHound(glm::vec2(x, y), glm::vec2(2.0f, 2.0f));
@@ -181,7 +183,9 @@ void Level::Create(std::string file)
 			backgrounds.push_back(ResourceManager::LoadTexture(backgroundPath.c_str(), alpha, name));
 			if (arrstr.size() > 4)
 			{
-				if (!order)
+				if (arrstr.size() == 7)
+					vBack.PushSprite(backgrounds, glm::vec2(std::stof(arrstr[4])), std::stof(arrstr[5]));
+				else if (!order)
 					back.PushSprite(backgrounds, glm::vec2(std::stof(arrstr[4])), std::stof(arrstr[5]));
 				else
 					front.PushSprite(backgrounds, glm::vec2(std::stof(arrstr[4])), std::stof(arrstr[5]));
@@ -197,6 +201,7 @@ void Level::Create(std::string file)
 void Level::Update(SpriteRenderer & renderer, float deltatime)
 {
 	back.Update(renderer, deltatime);
+	vBack.Update(renderer, deltatime);
 	for (auto iter : objects)
 		iter.second->Update(renderer, deltatime);
 	front.Update(renderer, deltatime);

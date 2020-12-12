@@ -40,7 +40,8 @@ void Bullet::Update(SpriteRenderer& renderer, float deltatime)
 
 	if (!IsIndependent)
 	{
-		Position = playerPos + (xFlip ? shootPos : -shootPos);
+		Position.x = playerPos.x + (xFlip ? shootPos.x : -shootPos.x);
+		Position.y = playerPos.y + shootPos.y;
 		collider->SetPos(Position.x, Position.y);
 	}
 

@@ -59,6 +59,9 @@ void Background::PushSprite(std::vector<Texture2D> sprites, glm::vec2 scale, flo
 
 void Background::Update(SpriteRenderer& renderer, float deltatime)
 {
+    if (size == 0)
+        return;
+
     if (IsMoving)
     {
         for (int i = 0; i < size; ++i)
@@ -69,8 +72,8 @@ void Background::Update(SpriteRenderer& renderer, float deltatime)
                 objects[i].Position.x = objects[partner].Position.x + width;
             else if (objects[i].Position.x > width)
                 objects[i].Position.x = objects[partner].Position.x - width;
-            int num = i + 2;
-            objects[i].Position.x += (num % 2 ? num - 1 : num) * deltatime * 50.0f;
+            objects[i].Position.x -= (i % 2 ? i - 1 : i) * deltatime * 50.0f;
+            objects[i].Position.x -= (Camera::posX - Camera::prevX) * objects[i].Speed;
             objects[i].Update(renderer, deltatime);
         }
     }

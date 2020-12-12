@@ -1,6 +1,14 @@
 #pragma once
 #include "enemy.h"
 
+enum class HoundAnimStatus
+{
+	ATK = 0,
+	DASH,
+	SWOON,
+	RUN
+};
+
 class EnHound : public Enemy
 {
 public:

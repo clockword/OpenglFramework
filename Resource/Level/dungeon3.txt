@@ -1,0 +1,11 @@
+0 Dungeon3 layer1 0 2.0f 0.7f
+0 Dungeon3 layer2 1 2.0f 0.8f
+0 Dungeon3 layer3 1 2.0f 0.9f
+1 Dungeon3 ground 1 2.0f 1.0f
+~
+99 pl_player 640 0 player_orbit 3 B player_swd 5 H
+12 sc_dungeon3_tile 400 550 0
+13 sc_dungeon3_tile 0 530 1
+14 sc_dungeon3_tile 300 400 2
+15 sc_dungeon3_tile -200 600 3
+16 sc_dungeon3_tile 300 200 4

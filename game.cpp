@@ -20,16 +20,13 @@ Game::~Game()
 
 void Game::Init()
 {
+	CreateLevel("./Resource/Level/dungeon3.txt");
 	level->Init();
 }
 
 void Game::Update(SpriteRenderer& renderer, float deltatime)
 {
-	BYTE key[256];
-	::GetKeyboardState(key);
 	level->Update(renderer, deltatime);
-	if (key[VK_SPACE] & 0x80)
-		CreateLevel("./Resource/Level/lvl_test.txt");
 }
 
 void Game::FixedUpdate(float deltatime)

@@ -1,0 +1,23 @@
+0 Dungeon2 layer_10 0
+0 Dungeon2 layer_11 0
+0 Dungeon2 layer_12 0
+0 Dungeon2 layer_13 0
+0 Dungeon2 layer_14 0
+0 Dungeon2 layer_15 0
+0 Dungeon2 layer_16 0 2.0f 0.8f
+0 Dungeon2 layer_20 1
+0 Dungeon2 layer_21 1
+0 Dungeon2 layer_22 1 2.0f 0.8f
+0 Dungeon2 layer_40 1
+0 Dungeon2 layer_41 1
+0 Dungeon2 layer_42 1
+0 Dungeon2 layer_43 1
+0 Dungeon2 layer_44 1
+0 Dungeon2 layer_45 1
+0 Dungeon2 layer_46 1 2.0f 0.9f
+1 Dungeon2 layer_3 1 2.0f 1.0f
+~
+99 pl_player 640 0 player_orbit 3 B player_swd 5 H
+6 sc_dungeon2_tile 1000 500 0
+7 sc_dungeon2_tile 1000 300 1
+8 sc_dungeon2_tile 1210 535 2
