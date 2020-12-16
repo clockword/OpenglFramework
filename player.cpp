@@ -25,12 +25,14 @@ void Player::Create(SpriteAnimation anim, Texture2D sprite, Collider* coll)
 	CollObject::Create(anim, sprite, coll);
 	hpBar = new GameObject(Position, glm::vec2(1.0f, 0.5f));
 	hpBar->Create(ResourceManager::LoadAnims("./Resource/VertexData/hpbar.txt", ResourceManager::GetTexture("player"), "hpbar"), ResourceManager::GetTexture("player"));
+	hpBar->Active = true;
 }
 
 void Player::Update(SpriteRenderer& renderer, float deltatime)
 {
 	BYTE key[256];
 	float speed = 300.0f;
+
 	float dash = 1.0f;
 	int status = anim->GetAnimStatus();
 	bool isContinuous = true;
@@ -78,7 +80,7 @@ void Player::Update(SpriteRenderer& renderer, float deltatime)
 		if (key[0x58] & 0x80 && atkInterval >= AtkDelay) {
 			status = (int)PlayerAnimStatus::ATKDWN_SWD;
 			isContinuous = false;
-			ShootBullets("player_swd", false, false, 10.0f, glm::vec2(30.0f, 0.0f), 0.3f);
+			ShootBullets("player_swd", false, false, 20.0f, glm::vec2(30.0f, 0.0f), 0.3f);
 		}
 
 		if (key[0x5A] & 0x80 && Velocity.y == 0.0f) {
@@ -100,7 +102,7 @@ void Player::Update(SpriteRenderer& renderer, float deltatime)
 			shootInterval = 0.0f;
 			status = (int)PlayerAnimStatus::SHOOT_ORBIT;
 			isContinuous = false;
-			ShootBullets("player_orbit", true, false, 10.0f, glm::vec2(70.0f, -15.0f), 10.0f, glm::vec2(600.0f, 0.0f));
+			ShootBullets("player_orbit", true, false, 30.0f, glm::vec2(70.0f, -15.0f), 10.0f, glm::vec2(600.0f, 0.0f));
 		}
 
 		Move(moveDirection);
@@ -117,8 +119,12 @@ void Player::Update(SpriteRenderer& renderer, float deltatime)
 	if(anim->GetAnimStatus() != status)
 		anim->SetAnimStatus(status, isContinuous);
 
-	if (currentHp >= 0.0f)
+	if (currentHp >= 0.0f) {
+		currentHp += deltatime * 2.0f;
 		hpBar->Size.x = currentHp / MaxHp;
+	}
+	if (currentHp >= MaxHp)
+		currentHp = MaxHp;
 	hpBar->Position = Position + glm::vec2(0.0f, -60.0f);
 	hpBar->Update(renderer, deltatime);
 	CollObject::Update(renderer, deltatime);
@@ -139,7 +145,7 @@ void Player::Init()
 	shootInterval = ShootDelay;
 	AtkDelay = 0.5f;
 	atkInterval = AtkDelay;
-	MaxHp = 100.0f;
+	MaxHp = 300.0f;
 	currentHp = MaxHp;
 
 	Camera::startX = Position.x;

@@ -1,6 +1,26 @@
 #pragma once
 #include "enemy.h"
 
+enum class BossAnimStatus
+{
+	ATKDWN_ORBIT = 0,
+	SHOOT_ORBIT,
+	ATKFWD_ORBIT,
+	ATKFWD_SWD,
+	ATKDWN_SWD,
+	ATKUP_SWD,
+	PWRUP,
+	HNDUP,
+	DASH,
+	DASHATK,
+	FALDWN,
+	JUMP,
+	SWOON,
+	IDLE,
+	GTH_ORBIT,
+	WALK
+};
+
 class EnBoss : public Enemy
 {
 public:
@@ -10,8 +30,4 @@ public:
 	virtual void Update(SpriteRenderer& renderer, float deltatime);
 
 	virtual void Init();
-
-	virtual void CollisionStepped(std::vector<CollObject*> obj);
-	virtual void CollisionSticked(std::vector<CollObject*> obj);
 };
-

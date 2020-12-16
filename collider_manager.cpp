@@ -62,6 +62,7 @@ void ColliderManager::FixedUpdate(float deltatime)
 
 			std::vector<CollObject*> step;
 			std::vector<CollObject*> stick;
+			std::vector<CollObject*> enter;
 
 			for (auto other : Colliders)
 			{
@@ -96,6 +97,11 @@ void ColliderManager::FixedUpdate(float deltatime)
 				{
 					bool isStep = false;
 					bool isStick = false;
+					bool isEnter = false;
+
+					if (rect.Left < othRect.Right && rect.Right > othRect.Left &&
+						rect.Top < othRect.Bottom && rect.Bottom > othRect.Top)
+						isEnter = true;
 
 					if (velocity.y > 0.0f && rect.Bottom > othRect.Top &&
 						rect.Left < othRect.Right && rect.Right > othRect.Left &&
@@ -133,6 +139,8 @@ void ColliderManager::FixedUpdate(float deltatime)
 						step.push_back(other.second->gameObject);
 					if (isStick)
 						stick.push_back(other.second->gameObject);
+					if (isEnter)
+						enter.push_back(other.second->gameObject);
 				}break;
 				}
 			}
@@ -141,6 +149,7 @@ void ColliderManager::FixedUpdate(float deltatime)
 
 			iter.second->gameObject->CollisionStepped(step);
 			iter.second->gameObject->CollisionSticked(stick);
+			iter.second->gameObject->CollisionEntered(enter);
 
 		}break;
 		case ObjectType::P_HITBOX:
@@ -196,7 +205,10 @@ void ColliderManager::FixedUpdate(float deltatime)
 
 					if (rect.Left < othRect.Right && rect.Right > othRect.Left &&
 						rect.Top < othRect.Bottom && rect.Bottom > othRect.Top) {
-						other.second->gameObject->Velocity = glm::vec2((iter.second->gameObject->Velocity.x < 0.0f ? -300.0f : 300.0f), -500.0f);
+						if(type == ObjectType::E_BULLET)
+							other.second->gameObject->Velocity = glm::vec2((iter.second->gameObject->Velocity.x < 0.0f ? -300.0f : 300.0f), -500.0f);
+						else
+							other.second->gameObject->Velocity = glm::vec2((iter.second->gameObject->xFlip ? 300.0f : -300.0f), -500.0f);
 						other.second->gameObject->SetIsControl(false);
 						iter.second->gameObject->Active = false;
 						other.second->gameObject->SetHp(other.second->gameObject->GetHp() - iter.second->gameObject->GetDamage());

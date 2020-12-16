@@ -29,4 +29,4 @@
 14 sc_dungeon3_tile 300 400 2
 15 sc_dungeon3_tile -200 600 3
 16 sc_dungeon3_tile 300 200 4
-17 en_archer 0 0 archer_arrow 3 B
+17 en_varcher 0 0 varcher_arrow 3 B

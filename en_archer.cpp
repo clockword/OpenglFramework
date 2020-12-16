@@ -33,25 +33,30 @@ void EnArcher::Update(SpriteRenderer& renderer, float deltatime)
 
 		shootInterval += deltatime;
 
-		if (distance <= 300.0f)
+		if (distance <= 1400.0f)
 		{
-			xFlip = direction.x > 0.0f ? false : true;
-			moveDirection.x = xFlip ? speed : -speed;
-		}
-		else if (distance <= 600.0f)
-			moveDirection.x = 0.0f;
-
-		if (distance <= 600.0f && shootInterval >= ShootDelay)
-		{
-			xFlip = direction.x > 0.0f ? true : false;
-			shootInterval = 0.0f;
-			ShootBullets("archer_arrow", true, true, 1.0f, glm::vec2(0.0f, 0.0f), 10.0f, glm::vec2(2000.0f, -400.0f), 3000.0f);
-			status = (int)ArcherAnimStatus::SHOOT;
-			isContinuous = false;
-		}
-		else
-		{
-
+			if (distance <= 300.0f)
+			{
+				xFlip = direction.x > 0.0f ? false : true;
+				moveDirection.x = xFlip ? speed : -speed;
+			}
+			else if (distance <= 600.0f) {
+				xFlip = direction.x > 0.0f ? true : false;
+				moveDirection.x = 0.0f;
+			}
+			else
+			{
+				xFlip = direction.x > 0.0f ? true : false;
+				moveDirection.x = xFlip ? speed : -speed;
+			}
+			if (distance <= 600.0f && shootInterval >= ShootDelay)
+			{
+				xFlip = direction.x > 0.0f ? true : false;
+				shootInterval = 0.0f;
+				ShootBullets("archer_arrow", true, true, 5.0f, glm::vec2(0.0f, 0.0f), 10.0f, glm::vec2(1500.0f, -400.0f), 3000.0f);
+				status = (int)ArcherAnimStatus::SHOOT;
+				isContinuous = false;
+			}
 		}
 
 		if (moveDir.y != 0.0f)
@@ -84,7 +89,7 @@ void EnArcher::Init()
 	anim->SetAnimStatus((int)ArcherAnimStatus::RUN);
 	ShootDelay = 1.5f;
 	shootInterval = ShootDelay;
-	MaxHp = 100.0f;
+	MaxHp = 50.0f;
 	currentHp = MaxHp;
 	damage = 1.0f;
 }

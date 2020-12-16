@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
+#include <Windows.h>
 
 #include "game.h"
 #include "resource_manager.h"
@@ -33,9 +34,13 @@ int main(int argc, char *argv[])
 #endif
     glfwWindowHint(GLFW_RESIZABLE, false);
 
+#ifndef _DEBUG
+    FreeConsole();
+#endif
+
     // glfw window creation
     // --------------------
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "DungeonCrown", NULL, NULL);
     glfwMakeContextCurrent(window);
     if (window == NULL)
     {
@@ -74,7 +79,7 @@ int main(int argc, char *argv[])
     SpriteRenderer renderer(temp);
 
     Game game;
-    game.Init();
+    game.Init(SCR_WIDTH, SCR_HEIGHT);
 
     // deltaTime variables
     // -------------------

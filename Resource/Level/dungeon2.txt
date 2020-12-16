@@ -17,7 +17,108 @@
 0 Dungeon2 layer_46 1 2.0f 0.9f
 1 Dungeon2 layer_3 1 2.0f 1.0f
 ~
-99 pl_player 640 0 player_orbit 3 B player_swd 5 H
-6 sc_dungeon2_tile 1000 500 0
-7 sc_dungeon2_tile 1000 300 1
-8 sc_dungeon2_tile 1210 535 2
+999 pl_player 640 0 player_orbit 3 B player_swd 5 H
+1 sc_dungeon2_tile 0 540 2
+2 sc_dungeon2_tile 0 350 2
+3 sc_dungeon2_tile 0 160 2
+4 sc_dungeon2_tile 0 -30 2
+5 sc_dungeon2_tile 640 300 0
+6 sc_dungeon2_tile 1000 350 2
+7 sc_dungeon2_tile 1000 160 2
+8 sc_dungeon2_tile 1000 -30 2
+9 sc_dungeon2_tile 1300 500 1
+10 sc_dungeon2_tile 1600 300 1
+11 sc_dungeon2_tile 1900 540 2
+12 sc_dungeon2_tile 1900 350 2
+13 sc_dungeon2_tile 2335 605 1
+14 sc_dungeon2_tile 2400 540 2
+15 sc_dungeon2_tile 2525 475 0
+16 sc_dungeon2_tile 3000 605 1
+17 sc_dungeon2_tile 3000 300 0
+18 sc_dungeon2_tile 3300 300 1
+19 sc_dungeon2_tile 3600 300 0
+20 sc_dungeon2_tile 3900 300 1
+21 sc_dungeon2_tile 4200 540 2
+22 sc_dungeon2_tile 4200 350 2
+23 sc_dungeon2_tile 4500 350 2
+24 sc_dungeon2_tile 4500 160 2
+25 sc_dungeon2_tile 4500 -30 2
+26 sc_dungeon2_tile 5600 605 0
+27 sc_dungeon2_tile 5200 455 0
+28 sc_dungeon2_tile 4800 305 0
+29 sc_dungeon2_tile 5200 155 0
+30 sc_dungeon2_tile 5400 155 0
+31 sc_dungeon2_tile 5600 155 0
+32 sc_dungeon2_tile 5730 540 2
+33 sc_dungeon2_tile 5730 350 2
+34 sc_dungeon2_tile 5730 160 2
+35 sc_dungeon2_tile 6000 350 2
+36 sc_dungeon2_tile 6000 160 2
+37 sc_dungeon2_tile 6000 -30 2
+38 sc_dungeon2_tile 6000 -220 2
+39 sc_dungeon2_tile 6060 455 0
+40 sc_dungeon2_tile 6255 455 0
+41 sc_dungeon2_tile 6450 455 0
+42 sc_dungeon2_tile 6645 455 0
+43 sc_dungeon2_tile 6840 455 0
+44 sc_dungeon2_tile 6255 205 0
+45 sc_dungeon2_tile 6450 205 0
+46 sc_dungeon2_tile 6645 205 0
+47 sc_dungeon2_tile 6840 205 0
+48 sc_dungeon2_tile 7035 205 0
+49 sc_dungeon2_tile 7100 605 1
+50 sc_dungeon2_tile 7160 540 2
+51 sc_dungeon2_tile 7160 350 2
+52 sc_dungeon2_tile 7160 160 2
+53 sc_dungeon2_tile 6060 370 1
+54 sc_dungeon2_tile 7400 160 2
+55 sc_dungeon2_tile 7400 -30 2
+56 sc_dungeon2_tile 7400 -220 2
+57 sc_dungeon2_tile 8600 540 2
+58 sc_dungeon2_tile 8600 350 2
+59 sc_dungeon2_tile 8600 -30 2
+60 sc_dungeon2_tile 8000 500 1
+61 sc_dungeon2_tile 7700 400 0
+62 sc_dungeon2_tile 8300 400 0
+63 sc_dungeon2_tile 8000 200 0
+64 sc_dungeon2_tile 9000 605 0
+65 sc_dungeon2_tile 9110 540 0
+66 sc_dungeon2_tile 9220 475 0
+67 sc_dungeon2_tile 9340 410 0
+68 sc_dungeon2_tile 9535 410 0
+69 sc_dungeon2_tile 9730 410 0
+70 sc_dungeon2_tile 9925 410 0
+71 sc_dungeon2_tile 10120 410 0
+72 sc_dungeon2_tile 10230 345 0
+73 sc_dungeon2_tile 10340 280 0
+74 sc_dungeon2_tile 10450 215 0
+75 sc_dungeon2_tile 10560 150 0
+76 sc_dungeon2_tile 10670 85 0
+77 sc_dungeon2_tile 10780 20 0
+78 sc_dungeon2_tile 10890 -45 0
+79 sc_dungeon2_tile 11000 540 2
+80 sc_dungeon2_tile 11000 350 2
+81 sc_dungeon2_tile 11000 160 2
+82 sc_dungeon2_tile 11000 -30 2
+83 sc_dungeon2_tile 11000 -300 2
+100 en_vhound 400 600
+101 en_hound 1500 600
+102 en_mage 1900 600 mage_fire 3 B
+103 en_bandit 2100 600 bandit_swd 3 H
+104 en_vhound 2800 600
+105 en_barbarian 3800 600 barbarian_swd 3 H
+106 en_archer 3600 200 archer_arrow 3 B
+107 en_barbarian 5500 0 barbarian_swd 3 H
+108 en_archer 4800 200 archer_arrow 3 B
+109 en_vhound 4800 600
+110 en_mage 5200 360 mage_fire 3 B
+111 en_hound 6300 600
+112 en_hound 6900 600
+113 en_darkknight 6500 100 darkknight_swd 3 H
+114 en_archer 6500 360 archer_arrow 3 B
+115 en_vmage 8500 100 vmage_fire 3 B
+116 en_bandit 8300 300 bandit_swd 3 H
+117 en_bandit 7700 300 bandit_swd 3 H
+118 en_vhound 7700 600
+119 en_barbarian 9900 250 barbarian_swd 3 H
+120 en_varcher 9400 300 varcher_arrow 9 B

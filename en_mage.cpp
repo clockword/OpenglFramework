@@ -1,22 +1,74 @@
 #include "en_mage.h"
 
-EnMage::EnMage() : Enemy()
+EnMage::EnMage() : Enemy(), teleport(false)
 {
 }
 
 EnMage::EnMage(glm::vec2 pos, glm::vec2 size, glm::vec3 color, glm::vec2 velocity) :
-	Enemy(pos, size, color, velocity)
+	Enemy(pos, size, color, velocity), teleport(false)
 {
 }
 
 void EnMage::Update(SpriteRenderer& renderer, float deltatime)
 {
-	shootInterval += deltatime;
-	if (shootInterval >= ShootDelay)
-	{
-		shootInterval = 0.0f;
-		ShootBullets("mage_fire", true, false, 10.0f, glm::vec2(0.0f, 0.0f), 10.0f, glm::vec2(300.0f, 0.0f));
+	if (!Active || IsDestroyed)
+		return;
+
+	if (currentHp <= 0.0f) {
+		Active = false;
+		IsDestroyed = true;
+		return;
 	}
+
+	int status = anim->GetAnimStatus();
+	bool isContinuous = true;
+
+	if (isControl)
+	{
+		status = (int)MageAnimStatus::IDLE;
+		glm::vec2 direction(glm::normalize(player->Position - Position));
+		float distance = glm::length(player->Position - Position);
+
+		if (distance <= 1000.0f)
+		{
+			shootInterval += deltatime;
+
+			if (teleport)
+			{
+				glm::vec2 pos = glm::vec2(direction.x < 0.0f ? player->Position.x - 200.0f - (float)(rand() % 101) 
+					: player->Position.x + 200.0f + (float)(rand() % 101), Position.y);
+				if (pos.x <= 200.0f)
+					pos.x = 200.0f;
+				else if (pos.x >= 10000.0f)
+					pos.x = 10000.0f;
+				pos.y = player->Position.y;
+				Position = pos;
+				collider->SetPos(pos.x, pos.y);
+				xFlip = direction.x < 0.0f ? false : true;
+				status = (int)MageAnimStatus::APPEAR;
+				isContinuous = false;
+				teleport = false;
+			}
+			else if (distance <= 150.0f && !teleport || distance >= 500.0f && !teleport)
+			{
+				teleport = true;
+			}
+			else
+			{
+				if (shootInterval >= ShootDelay && Position.y < player->Position.y + 100.0f && Position.y > player->Position.y - 100.0f)
+				{
+					xFlip = direction.x < 0.0f ? false : true;
+					shootInterval = 0.0f;
+					ShootBullets("mage_fire", true, false, 10.0f, glm::vec2(30.0f, -10.0f), 10.0f, glm::vec2(300.0f, 0.0f));
+					status = (int)MageAnimStatus::SHOOT;
+					isContinuous = false;
+				}
+			}
+		}
+	}
+
+	if (status != anim->GetAnimStatus())
+		anim->SetAnimStatus(status, isContinuous);
 
 	if (currentHp >= 0.0f)
 		hpBar->Size.x = currentHp / MaxHp;
@@ -45,6 +97,14 @@ void EnMage::CollisionStepped(std::vector<CollObject*> obj)
 
 void EnMage::CollisionSticked(std::vector<CollObject*> obj)
 {
+}
+
+void EnMage::CollisionEntered(std::vector<CollObject*> obj)
+{
+	if (obj.size() > 0)
+	{
+		moveDir.x = (float)(rand() % 3 - 1);
+	}
 }
 
 void EnMage::ShootBullets(std::string name, bool isIndependent, bool gravity, float damage, glm::vec2 pos, float time, glm::vec2 speed, float distance)

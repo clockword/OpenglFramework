@@ -76,6 +76,7 @@ public:
 
     virtual void CollisionStepped(std::vector<CollObject*> obj) {}
     virtual void CollisionSticked(std::vector<CollObject*> obj) {}
+    virtual void CollisionEntered(std::vector<CollObject*> obj) {}
 protected:
     virtual void Draw(SpriteRenderer& renderer);
 };

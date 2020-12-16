@@ -40,6 +40,9 @@ void GameObject::Create(SpriteAnimation anim, Texture2D sprite)
 
 void GameObject::Update(SpriteRenderer& renderer, float deltatime)
 {
+    if (!Active || IsDestroyed)
+        return;
+
     anim->UpdateAnim(deltatime);
 
     Draw(renderer);

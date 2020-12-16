@@ -3,9 +3,53 @@
 0 Dungeon3 layer3 1 2.0f 0.9f
 1 Dungeon3 ground 1 2.0f 1.0f
 ~
-99 pl_player 640 0 player_orbit 3 B player_swd 5 H
-12 sc_dungeon3_tile 400 550 0
-13 sc_dungeon3_tile 0 530 1
-14 sc_dungeon3_tile 300 400 2
-15 sc_dungeon3_tile -200 600 3
-16 sc_dungeon3_tile 300 200 4
+999 pl_player 640 0 player_orbit 3 B player_swd 5 H
+0 sc_dungeon3_tile 0 530 1
+10 sc_dungeon3_tile 0 300 1
+20 sc_dungeon3_tile 0 70 1
+30 sc_dungeon3_tile 640 300 4
+39 sc_dungeon3_tile 1300 600 2
+40 sc_dungeon3_tile 1500 530 1
+41 sc_dungeon3_tile 1700 600 2
+42 sc_dungeon3_tile 1700 300 3
+43 sc_dungeon3_tile 2000 300 3
+44 sc_dungeon3_tile 2300 300 3
+50 sc_dungeon3_tile 2500 530 1
+51 sc_dungeon3_tile 2900 600 4
+57 sc_dungeon3_tile 3650 600 3
+58 sc_dungeon3_tile 3800 530 1
+59 sc_dungeon3_tile 3850 370 3
+60 sc_dungeon3_tile 4000 530 1
+70 sc_dungeon3_tile 4000 300 1
+79 sc_dungeon3_tile 4800 600 2
+80 sc_dungeon3_tile 5000 530 1
+89 sc_dungeon3_tile 5800 600 2
+90 sc_dungeon3_tile 6000 530 1
+99 sc_dungeon3_tile 7800 600 2
+100 sc_dungeon3_tile 8000 530 1
+101 sc_dungeon3_tile 7500 400 4
+102 sc_dungeon3_tile 7750 250 4
+110 sc_dungeon3_tile 8000 300 1
+120 sc_dungeon3_tile 11000 530 1
+130 sc_dungeon3_tile 11000 300 1
+140 sc_dungeon3_tile 11000 70 1
+201 en_darkknight 600 500 darkknight_swd 3 H
+202 en_varcher 1300 500 varcher_arrow 9 B
+203 en_barbarian 2250 500 barbarian_swd 3 H
+204 en_vhound 1700 500
+205 en_vmage 3650 500 vmage_fire 3 B
+206 en_vhound 3200 600
+207 en_varcher 3850 250 varcher_arrow 9 B
+208 en_barbarian 4200 500 barbarian_swd 3 H
+209 en_varcher 4500 350 varcher_arrow 9 B
+210 en_darkknight 5500 500 darkknight_swd 3 H
+211 en_vmage 6000 350 vmage_fire 3 B
+212 en_vhound 6500 600
+213 en_vhound 7000 600
+214 en_vhound 7500 600
+215 en_darkknight 8300 500 darkknight_swd 3 H
+216 en_darkknight 9000 500 darkknight_swd 3 H
+217 en_darkknight 9700 500 darkknight_swd 3 H
+218 en_barbarian 10750 500 barbarian_swd 3 H
+219 en_vmage 10000 500 vmage_fire 3 B
+220 en_varcher 9500 250 varcher_arrow 9 B

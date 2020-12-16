@@ -33,6 +33,9 @@ void CollObject::Create(SpriteAnimation anim, Texture2D sprite, Collider* coll)
 
 void CollObject::Update(SpriteRenderer& renderer, float deltatime)
 {
+	if (!Active || IsDestroyed)
+		return;
+
 	anim->UpdateAnim(deltatime);
 
 	Draw(renderer);

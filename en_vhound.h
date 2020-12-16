@@ -11,6 +11,7 @@ enum class VHoundAnimStatus
 
 class EnVhound : public Enemy
 {
+	float dash;
 public:
 	EnVhound();
 	EnVhound(glm::vec2 pos, glm::vec2 size, glm::vec3 color = glm::vec3(1.0f), glm::vec2 velocity = glm::vec2(0.0f, 0.0f));

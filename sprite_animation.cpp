@@ -92,7 +92,7 @@ void SpriteAnimation::UpdateAnim(float deltatime)
 
 void SpriteAnimation::SetAnimStatus(int status, bool isContinuous)
 {
-	if (!this->isContinuous)
+	if (!this->isContinuous && isContinuous)
 		return;
 
 	this->animStatus = status;

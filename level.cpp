@@ -16,7 +16,7 @@
 #include "en_vmage.h"
 #include "camera.h"
 
-Level::Level()
+Level::Level() : name(), IsCleared(false), scrWidth(0), scrHeight(0)
 {
 }
 
@@ -36,8 +36,10 @@ void Level::Init()
 	}
 }
 
-void Level::Create(std::string file)
+void Level::Create(std::string filename)
 {
+	this->name = filename;
+	std::string file = "./Resource/Level/" + filename + ".txt";
 	std::ifstream fileopen(file.c_str());
 	char ch[256];
 	std::string str;
@@ -195,16 +197,24 @@ void Level::Create(std::string file)
 		arrstr.clear();
 	}
 
-	this->name = file;
+	this->name = filename;
 }
 
 void Level::Update(SpriteRenderer & renderer, float deltatime)
 {
 	back.Update(renderer, deltatime);
 	vBack.Update(renderer, deltatime);
-	for (auto iter : objects)
+	for (auto iter : objects) {
+		if (iter.second->Position.x > Camera::posX - (float)scrWidth&&
+			iter.second->Position.x < Camera::posX + (float)scrWidth)
+			iter.second->Active = true;
+		else
+			iter.second->Active = false;
 		iter.second->Update(renderer, deltatime);
+	}
 	front.Update(renderer, deltatime);
+	if (Camera::player->Position.x >= 10800.0f)
+		IsCleared = true;
 }
 
 void Level::FixedUpdate(float deltatime)

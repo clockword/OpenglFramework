@@ -41,9 +41,6 @@
     <ClCompile Include="resource_manager.cpp">
       <Filter>소스 파일\gl_object</Filter>
     </ClCompile>
-    <ClCompile Include="text_renderer.cpp">
-      <Filter>소스 파일\gl_object</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -146,9 +143,6 @@
       <Filter>소스 파일\gl_object</Filter>
     </ClInclude>
     <ClInclude Include="sprite_renderer.h">
-      <Filter>소스 파일\gl_object</Filter>
-    </ClInclude>
-    <ClInclude Include="text_renderer.h">
       <Filter>소스 파일\gl_object</Filter>
     </ClInclude>
     <ClInclude Include="shader.h">
