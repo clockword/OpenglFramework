@@ -33,7 +33,7 @@
 13 sc_dungeon2_tile 2335 605 1
 14 sc_dungeon2_tile 2400 540 2
 15 sc_dungeon2_tile 2525 475 0
-16 sc_dungeon2_tile 3000 605 1
+16 sc_dungeon2_tile 2800 605 1
 17 sc_dungeon2_tile 3000 300 0
 18 sc_dungeon2_tile 3300 300 1
 19 sc_dungeon2_tile 3600 300 0

@@ -7,4 +7,4 @@
 1 Dawn layer_7 1 1.89f 1.0f
 -
 99 pl_player 640 600 player_orbit 3 B player_swd 5 H
-100 en_boss 1000 600 boss_orbit 15 B boss_swd 5 H boss_atk 3 H
+100 en_boss 1800 600 boss_orbit 15 B boss_swd 5 H boss_atk 3 H
