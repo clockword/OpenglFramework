@@ -120,7 +120,7 @@ void Player::Update(SpriteRenderer& renderer, float deltatime)
 		anim->SetAnimStatus(status, isContinuous);
 
 	if (currentHp >= 0.0f) {
-		currentHp += deltatime * 2.0f;
+		currentHp += deltatime * 3.0f;
 		hpBar->Size.x = currentHp / MaxHp;
 	}
 	if (currentHp >= MaxHp)

@@ -14,6 +14,7 @@ private:
 	std::map<int, GameObject*> objects;
 public:
 	std::string name;
+	bool isOver;
 	bool IsCleared;
 	unsigned int scrWidth;
 	unsigned int scrHeight;

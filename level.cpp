@@ -16,7 +16,7 @@
 #include "en_vmage.h"
 #include "camera.h"
 
-Level::Level() : name(), IsCleared(false), scrWidth(0), scrHeight(0)
+Level::Level() : name(), IsCleared(false), scrWidth(0), scrHeight(0), isOver(false)
 {
 }
 
@@ -202,9 +202,16 @@ void Level::Create(std::string filename)
 
 void Level::Update(SpriteRenderer & renderer, float deltatime)
 {
+	bool bossDefeat = false;
+	isOver = false;
 	back.Update(renderer, deltatime);
 	vBack.Update(renderer, deltatime);
 	for (auto iter : objects) {
+		if (iter.second->Type == ObjectType::PLAYER && iter.second->GetHp() <= 0.0f)
+			isOver = true;
+		if (iter.second->GetEnemyType() == (int)EnemyType::BOSS && iter.second->IsDestroyed)
+			bossDefeat = true;
+
 		if (iter.second->Position.x > Camera::posX - (float)scrWidth&&
 			iter.second->Position.x < Camera::posX + (float)scrWidth)
 			iter.second->Active = true;
@@ -213,7 +220,10 @@ void Level::Update(SpriteRenderer & renderer, float deltatime)
 		iter.second->Update(renderer, deltatime);
 	}
 	front.Update(renderer, deltatime);
-	if (Camera::player->Position.x >= 10800.0f)
+	
+	if (name == "bossfight" && bossDefeat)
+		IsCleared = true;
+	else if (name != "bossfight" && Camera::player->Position.x >= 10800.0f)
 		IsCleared = true;
 }
 

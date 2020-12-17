@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "DungeonCrown", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "DungeonCrow", NULL, NULL);
     glfwMakeContextCurrent(window);
     if (window == NULL)
     {
@@ -119,6 +119,8 @@ int main(int argc, char *argv[])
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         game.Update(renderer, deltaTime);
+        if (game.isOver)
+            break;
 
         if (fixedDuration > 0.02f)
         {

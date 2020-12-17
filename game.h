@@ -12,7 +12,11 @@ private:
 	unsigned int scrWidth;
 	unsigned int scrHeight;
 	irrklang::ISoundEngine* soundEngine;
+	float overInterval;
+	float overMax;
 public:
+	bool isOver;
+
 	Game();
 	~Game();
 

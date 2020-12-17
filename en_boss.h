@@ -23,6 +23,9 @@ enum class BossAnimStatus
 
 class EnBoss : public Enemy
 {
+private:
+	bool sleep;
+	bool isPowerUp;
 public:
 	EnBoss();
 	EnBoss(glm::vec2 pos, glm::vec2 size, glm::vec3 color = glm::vec3(1.0f), glm::vec2 velocity = glm::vec2(0.0f, 0.0f));

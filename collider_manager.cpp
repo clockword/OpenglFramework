@@ -2,6 +2,7 @@
 #include <fstream>
 #include "rect.h"
 #include "bullet.h"
+#include "enemy.h"
 
 std::map<std::string, Collider*> ColliderManager::Colliders;
 
@@ -81,7 +82,7 @@ void ColliderManager::FixedUpdate(float deltatime)
 				case ObjectType::ENEMY:
 				{
 					if (type == ObjectType::ENEMY || !iter.second->gameObject->GetIsControl() ||
-						!other.second->gameObject->GetIsControl())
+						!other.second->gameObject->GetIsControl() || other.second->gameObject->GetEnemyType() == (int)EnemyType::BOSS)
 						break;
 
 					if (rect.Left < othRect.Right && rect.Right > othRect.Left &&
@@ -191,6 +192,10 @@ void ColliderManager::FixedUpdate(float deltatime)
 
 					if (rect.Left < othRect.Right && rect.Right > othRect.Left &&
 						rect.Top < othRect.Bottom && rect.Bottom > othRect.Top) {
+						if (other.second->gameObject->GetEnemyType() == (int)EnemyType::BOSS &&
+							!other.second->gameObject->GetIsControl())
+							break;
+
 						other.second->gameObject->Velocity = glm::vec2((iter.second->gameObject->xFlip ? 300.0f : -300.0f), -500.0f);
 						other.second->gameObject->SetIsControl(false);
 						iter.second->gameObject->Active = false;
